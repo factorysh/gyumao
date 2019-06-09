@@ -1,0 +1,16 @@
+
+[prune]
+  go-tests = true
+  unused-packages = true
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/nsqio/go-diskqueue"
+
+[[constraint]]
+  name = "github.com/influxdata/influxdb"
+  version = "1.7.6"
+
+[[constraint]]
+  name = "github.com/sirupsen/logrus"
+  version = "^1.4.1"
