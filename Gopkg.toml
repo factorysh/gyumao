@@ -4,10 +4,6 @@
   unused-packages = true
 
 [[constraint]]
-  branch = "master"
-  name = "github.com/nsqio/go-diskqueue"
-
-[[constraint]]
   name = "github.com/influxdata/influxdb"
   version = "1.7.6"
 
