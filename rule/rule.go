@@ -7,6 +7,7 @@ import (
 type Rule struct {
 	Name string
 	Tags models.Tags
+	Keys []string
 	Do   func(point models.Point) error
 }
 
