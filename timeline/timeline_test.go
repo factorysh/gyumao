@@ -8,7 +8,7 @@ import (
 )
 
 func TestTimeline(t *testing.T) {
-	tl := NewTimeline(3)
+	tl := New(3)
 	assert.Equal(t, 0, tl.Lenght())
 	tl.Set(time.Now(), 1)
 	tl.Set(time.Now(), 2)

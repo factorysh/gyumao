@@ -12,7 +12,7 @@ type Timeline struct {
 	lock  sync.Mutex
 }
 
-func NewTimeline(size int) *Timeline {
+func New(size int) *Timeline {
 	return &Timeline{
 		size:  size,
 		store: make(map[time.Time]interface{}),
