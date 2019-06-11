@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -53,6 +52,6 @@ func (s *Server) Write(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Error(err)
 	}
-	fmt.Println(points)
 	s.points <- points
+	w.WriteHeader(http.StatusOK)
 }
