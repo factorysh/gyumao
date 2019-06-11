@@ -8,12 +8,32 @@ import (
 	"io/ioutil"
 
 	"github.com/influxdata/influxdb/models"
-	diskqueue "github.com/nsqio/go-diskqueue"
 	log "github.com/sirupsen/logrus"
+	"gitlab.bearstech.com/factory/gyumao/rule"
 )
 
 type Server struct {
-	queue diskqueue.Interface
+	points chan models.Points
+	rules  *rule.Rules
+}
+
+func New(rules *rule.Rules) *Server {
+	s := &Server{
+		points: make(chan models.Points, 1024),
+		rules:  rules,
+	}
+	return s
+}
+
+func (s *Server) Start() error {
+	for {
+		points := <-s.points
+		for _, point := range points {
+			if err := s.rules.Filter(point); err != nil {
+				return err
+			}
+		}
+	}
 }
 
 func (s *Server) Write(w http.ResponseWriter, r *http.Request) {
@@ -34,8 +54,5 @@ func (s *Server) Write(w http.ResponseWriter, r *http.Request) {
 		log.Error(err)
 	}
 	fmt.Println(points)
-	err = s.queue.Put(buff)
-	if err != nil {
-		log.Error(err)
-	}
+	s.points <- points
 }
