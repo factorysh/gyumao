@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -18,5 +17,7 @@ rules:
 `
 	rules, err := Load([]byte(yaml))
 	assert.NoError(t, err)
-	fmt.Println(rules)
+	data, err := rules.Rules[0].Do(nil)
+	assert.NoError(t, err)
+	assert.Equal(t, 2, data)
 }
