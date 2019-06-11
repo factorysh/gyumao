@@ -17,7 +17,7 @@ func New() Rules {
 	return make(map[string][]*Rule)
 }
 
-func (r Rules) Append(name string, tags map[string]string, do func(point models.Point) error) {
+func (r Rules) Append(name string, tags Tags, do func(point models.Point) error) {
 	_, ok := r[name]
 	if !ok {
 		r[name] = make([]*Rule, 0)
@@ -35,7 +35,7 @@ func (r Rules) Filter(point models.Point) error {
 		return nil
 	}
 	for _, rule := range rr {
-		if models.CompareTags(point.Tags(), rule.Tags) >= 0 {
+		if models.CompareTags(point.Tags(), rule.Tags) <= 0 {
 			err := rule.Do(point)
 			if err != nil {
 				// Crash early
