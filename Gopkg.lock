@@ -2,6 +2,31 @@
 
 
 [[projects]]
+  digest = "1:d04889482897652dedae6d8575b479c06fa3eb3c3abe248163b25d3df5fab43e"
+  name = "github.com/antlr/antlr4"
+  packages = ["runtime/Go/antlr"]
+  pruneopts = "UT"
+  revision = "be58ebffde8e29c154192c019608f0a5b8e6a064"
+  version = "4.7.2"
+
+[[projects]]
+  branch = "master"
+  digest = "1:4bb408522c7f28a26117c8f3588784b55e80fd589e908e81c16659d93492c37f"
+  name = "github.com/antonmedv/expr"
+  packages = [
+    ".",
+    "ast",
+    "checker",
+    "compiler",
+    "internal/file",
+    "parser",
+    "parser/gen",
+    "vm",
+  ]
+  pruneopts = "UT"
+  revision = "6180b0b32269d85269af823182d265d440f8a47d"
+
+[[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
@@ -60,13 +85,39 @@
   pruneopts = "UT"
   revision = "301114b31cced3624480dfb114ca1b495ec69aa5"
 
+[[projects]]
+  digest = "1:9d9ab00a80ca133b65a1d0f398c3dc2df244255e82a51784bad02cd70ed973f3"
+  name = "golang.org/x/text"
+  packages = [
+    "internal/gen",
+    "internal/triegen",
+    "internal/ucd",
+    "transform",
+    "unicode/cldr",
+    "width",
+  ]
+  pruneopts = "UT"
+  revision = "342b2e1fbaa52c93f31447ad2c6abc048c63e475"
+  version = "v0.3.2"
+
+[[projects]]
+  digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
+  name = "gopkg.in/yaml.v2"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
+  version = "v2.2.2"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/antonmedv/expr",
+    "github.com/antonmedv/expr/vm",
     "github.com/influxdata/influxdb/models",
     "github.com/sirupsen/logrus",
     "github.com/stretchr/testify/assert",
+    "gopkg.in/yaml.v2",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
