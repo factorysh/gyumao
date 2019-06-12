@@ -13,11 +13,11 @@ rules:
    keys:
     - hostname
    expr: >
-     1+1
+     bob+1
 `
 	rules, err := Load([]byte(yaml))
 	assert.NoError(t, err)
-	data, err := rules.Rules[0].Do(nil)
+	data, err := rules.Rules[0].Do(map[string]interface{}{"bob": 2})
 	assert.NoError(t, err)
-	assert.Equal(t, 2, data)
+	assert.Equal(t, 3, data)
 }
