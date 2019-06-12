@@ -2,6 +2,7 @@ package rule
 
 import (
 	"github.com/influxdata/influxdb/models"
+	"gitlab.bearstech.com/factory/gyumao/config"
 )
 
 type Rule struct {
@@ -16,6 +17,21 @@ type Tags map[string]string
 
 func New() Rules {
 	return make(map[string][]*Rule)
+}
+
+func FromConfig(cnf *config.Rules) (Rules, error) {
+	rules := New()
+	for _, rule := range cnf.Rules {
+		_, ok := rules[rule.Name]
+		if !ok {
+			rules[rule.Name] = make([]*Rule, 0)
+		}
+		rules[rule.Name] = append(rules[rule.Name], &Rule{
+			Name: rule.Name,
+			Tags: models.NewTags(rule.Tags),
+		})
+	}
+	return rules, nil
 }
 
 func (r Rules) Append(name string, tags Tags, do func(point models.Point) error) {
