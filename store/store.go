@@ -12,7 +12,7 @@ type Store struct {
 
 func New() *Store {
 	return &Store{
-		store: make(map[Key]*timeline.Timeline)
+		store: make(map[Key]*timeline.Timeline),
 	}
 }
 
@@ -22,5 +22,5 @@ func (s *Store) Append(r *rule.Rule, point models.Point) {
 	if !ok {
 		s.store[k] = timeline.New(3) // FIXME hardcoded length
 	}
-	s.store.Set(point.Time(), point)
+	s.store[k].Set(point.Time(), point)
 }
