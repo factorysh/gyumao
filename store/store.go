@@ -2,7 +2,6 @@ package store
 
 import (
 	"github.com/influxdata/influxdb/models"
-	"gitlab.bearstech.com/factory/gyumao/rule"
 	"gitlab.bearstech.com/factory/gyumao/timeline"
 )
 
@@ -16,8 +15,8 @@ func New() *Store {
 	}
 }
 
-func (s *Store) Append(r *rule.Rule, point models.Point) {
-	k := BuildKey(r, point)
+func (s *Store) Append(keys []string, point models.Point) {
+	k := BuildKey(keys, point)
 	_, ok := s.store[k]
 	if !ok {
 		s.store[k] = timeline.New(3) // FIXME hardcoded length
