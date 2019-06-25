@@ -21,6 +21,18 @@ func New(size int) *Timeline {
 	}
 }
 
+func (t *Timeline) Copy() *Timeline {
+	t.lock.Lock()
+	defer t.lock.Unlock()
+	tt := New(t.size)
+	tt.keys = make([]time.Time, t.Lenght())
+	for i, key := range t.keys {
+		tt.keys[i] = key
+		tt.store[key] = t.store[key]
+	}
+	return tt
+}
+
 func (t *Timeline) Set(ts time.Time, v interface{}) {
 	t.lock.Lock()
 	defer t.lock.Unlock()
@@ -53,4 +65,20 @@ func (t *Timeline) Last() interface{} {
 
 func (t *Timeline) Lenght() int {
 	return len(t.keys)
+}
+
+func (t *Timeline) Duration(d time.Duration) *Timeline {
+	tt := t.Copy()
+	since := time.Now().Add(d)
+	var i int
+	for _, k := range t.keys {
+		i++
+		if k.Before(since) {
+			delete(tt.store, k)
+		} else {
+			break
+		}
+	}
+	tt.keys = tt.keys[i:]
+	return tt
 }
