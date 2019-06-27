@@ -67,6 +67,7 @@ func (t *Timeline) Lenght() int {
 	return len(t.keys)
 }
 
+// Duration return a Timeline in a time window
 func (t *Timeline) Duration(d time.Duration) *Timeline {
 	tt := t.Copy()
 	since := time.Now().Add(d)
@@ -80,5 +81,26 @@ func (t *Timeline) Duration(d time.Duration) *Timeline {
 		}
 	}
 	tt.keys = tt.keys[i:]
+	return tt
+}
+
+// NotNil return a Timeline without nil values
+func (t *Timeline) NotNil() *Timeline {
+	t.lock.Lock()
+	defer t.lock.Unlock()
+	size := 0
+	for _, v := range t.store {
+		if v == nil {
+			size++
+		}
+	}
+	tt := New(size)
+	tt.keys = make([]time.Time, size)
+	i := 0
+	for k, v := range t.store {
+		tt.keys[i] = k
+		tt.store[k] = v
+		i++
+	}
 	return tt
 }
