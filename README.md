@@ -1,6 +1,10 @@
 # Gyūmaō
 
-[![Build Status](https://drone.bearstech.com/api/badges/factorysh/gyumao/status.svg)](https://drone.bearstech.com/factorysh/)
+![Build Status](https://drone.bearstech.com/api/badges/factorysh/gyumao/status.svg)](https://drone.bearstech.com/factorysh/)
+
+[牛魔王 Ox demon king](https://en.wikipedia.org/wiki/List_of_Dragon_Ball_characters#Ox-King)
+
+Get measurements in _influxdb_ format, apply rules, send alert to _alertmanager_.
 
 ## Bird view
 
