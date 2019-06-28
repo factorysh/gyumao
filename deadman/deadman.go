@@ -18,6 +18,10 @@ func (d *DeadRegistry) Alive(rank uint) {
 	d.bitset.Set(rank)
 }
 
+func (d *DeadRegistry) Reset() {
+	d.bitset.ClearAll()
+}
+
 type DeadIterator struct {
 	registry *DeadRegistry
 	cpt      uint

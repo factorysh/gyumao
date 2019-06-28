@@ -78,6 +78,14 @@
   version = "v1.3.0"
 
 [[projects]]
+  digest = "1:85ddc8a0e53c1ebe8ba228f2303fb156feffd8f2b4bead4d1d0af9c293c6054f"
+  name = "github.com/willf/bitset"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "20ad246f50b49590afcb1ed8ad143da7163869cb"
+  version = "v1.1.10"
+
+[[projects]]
   branch = "master"
   digest = "1:8f5108406bc43c7669b0d67d282e40d05c9f268615fcaf8c1f0f76965aa3f09f"
   name = "golang.org/x/sys"
@@ -117,6 +125,7 @@
     "github.com/influxdata/influxdb/models",
     "github.com/sirupsen/logrus",
     "github.com/stretchr/testify/assert",
+    "github.com/willf/bitset",
     "gopkg.in/yaml.v2",
   ]
   solver-name = "gps-cdcl"
