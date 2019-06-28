@@ -2,7 +2,7 @@ package store
 
 import (
 	"github.com/influxdata/influxdb/models"
-	"gitlab.bearstech.com/factory/gyumao/timeline"
+	"github.com/factorysh/gyumao/timeline"
 )
 
 type Store struct {

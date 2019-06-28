@@ -8,7 +8,7 @@ import (
 
 	"github.com/influxdata/influxdb/models"
 	log "github.com/sirupsen/logrus"
-	"gitlab.bearstech.com/factory/gyumao/rule"
+	"github.com/factorysh/gyumao/rule"
 )
 
 type Server struct {

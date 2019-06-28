@@ -7,7 +7,7 @@ bin:
 
 test:
 	go test -v \
-		gitlab.bearstech.com/factory/gyumao/timeline \
-		gitlab.bearstech.com/factory/gyumao/store \
-		gitlab.bearstech.com/factory/gyumao/config \
-		gitlab.bearstech.com/factory/gyumao/rule
+		github.com/factorysh/gyumao/timeline \
+		github.com/factorysh/gyumao/store \
+		github.com/factorysh/gyumao/config \
+		github.com/factorysh/gyumao/rule

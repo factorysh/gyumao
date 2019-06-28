@@ -2,7 +2,7 @@ package rule
 
 import (
 	"github.com/influxdata/influxdb/models"
-	"gitlab.bearstech.com/factory/gyumao/config"
+	"github.com/factorysh/gyumao/config"
 )
 
 type Rule struct {
