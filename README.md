@@ -1,18 +1,31 @@
 # Gyūmaō
 
-Bird view
+[![Build Status](https://drone.bearstech.com/api/badges/factorysh/gyumao/status.svg)](https://drone.bearstech.com/factorysh/)
+
+## Bird view
+
+Short arm:
 
 ```
-    telegraf
-        |
-        v
-      relay -> influxdb
-        |
-        v
-     gyumao
+telegraf
+    |
+    v
+ gyumao -> alertmanager
 ```
 
-point has hierarchies :
+Long arm:
+
+```
+telegraf
+    |
+    v
+  relay -> influxdb
+    |
+    v
+ gyumao -> alertmanager
+```
+
+Point has hierarchies :
 
 - DC / server
 - Client / project / service
@@ -36,3 +49,7 @@ point has a key : name + list of tags
 last time seen.
 
 circular store, ordered by date.
+
+## Licence
+
+GPL v3. © 2019 Mathieu Lecarme.
