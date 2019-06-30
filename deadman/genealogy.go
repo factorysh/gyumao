@@ -2,13 +2,13 @@ package deadman
 
 type Genealogy struct {
 	genealogies []*DeadRegistry
-	rank        int
+	rank        int // Age
 }
 
-func NewGenealogy(generation int, size uint) *Genealogy {
+func New(generation int, size uint) *Genealogy {
 	genealogies := make([]*DeadRegistry, generation)
 	for i := 0; i < generation; i++ {
-		genealogies[i] = New(size)
+		genealogies[i] = NewDeadRegistry(size)
 	}
 	return &Genealogy{
 		genealogies: genealogies,
@@ -38,4 +38,15 @@ func (g *Genealogy) Previous(n int) *DeadRegistry {
 		return nil
 	}
 	return g.genealogies[g.previous(n)]
+}
+
+func (g *Genealogy) Crunch(n int) *DeadRegistry {
+	if n >= (len(g.genealogies)-1) || n <= 0 {
+		return nil
+	}
+	current := g.Current()
+	for i := 1; i < n; i++ {
+		current = g.genealogies[g.previous(i)].Or(current)
+	}
+	return current
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func TestDeadman(t *testing.T) {
-	d := New(3)
+	d := NewDeadRegistry(3)
 	assert.False(t, d.bitset.Any())
 	d.Alive(0)
 	d.Alive(2)
@@ -24,4 +24,16 @@ func TestDeadman(t *testing.T) {
 	assert.True(t, d.bitset.Any())
 	d.Reset()
 	assert.False(t, d.bitset.Any())
+}
+
+func TestIterator(t *testing.T) {
+	d := NewDeadRegistry(4)
+	d.Alive(1).Alive(2)
+	i := d.DeadIterator()
+	cpt := 0
+	for n, ok := i.Next(); ok; n, ok = i.Next() {
+		fmt.Println("n", n)
+		cpt++
+	}
+	assert.False(t, true)
 }

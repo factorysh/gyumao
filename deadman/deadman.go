@@ -8,18 +8,26 @@ type DeadRegistry struct {
 	bitset *bitset.BitSet
 }
 
-func New(size uint) *DeadRegistry {
+func NewDeadRegistry(size uint) *DeadRegistry {
 	return &DeadRegistry{
 		bitset: bitset.New(size),
 	}
 }
 
-func (d *DeadRegistry) Alive(rank uint) {
+func (d *DeadRegistry) Alive(rank uint) *DeadRegistry {
 	d.bitset.Set(rank)
+	return d
 }
 
-func (d *DeadRegistry) Reset() {
+func (d *DeadRegistry) Reset() *DeadRegistry {
 	d.bitset.ClearAll()
+	return d
+}
+
+func (d1 *DeadRegistry) Or(d2 *DeadRegistry) *DeadRegistry {
+	return &DeadRegistry{
+		bitset: d1.bitset.Union(d2.bitset),
+	}
 }
 
 type DeadIterator struct {
@@ -27,13 +35,15 @@ type DeadIterator struct {
 	cpt      uint
 }
 
+// Next iterate for the next dead
+// for n, ok := i.Next(); ok; n, ok = i.Next() {}
 func (di *DeadIterator) Next() (uint, bool) {
-	rank, ok := di.registry.bitset.NextClear(di.cpt)
-	if rank == di.cpt {
+	if di.cpt > di.registry.bitset.Len() {
 		return 0, false
 	}
-	di.cpt = rank
-	return di.cpt, ok
+	rank, ok := di.registry.bitset.NextClear(di.cpt)
+	di.cpt = rank + 1
+	return rank, ok
 }
 
 func (d *DeadRegistry) DeadIterator() *DeadIterator {
