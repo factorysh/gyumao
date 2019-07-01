@@ -35,5 +35,4 @@ func TestIterator(t *testing.T) {
 		fmt.Println("n", n)
 		cpt++
 	}
-	assert.False(t, true)
 }
