@@ -1,15 +1,15 @@
 package rule
 
 import (
-	"github.com/influxdata/influxdb/models"
 	"github.com/factorysh/gyumao/config"
+	"github.com/influxdata/influxdb/models"
 )
 
 type Rule struct {
-	Name string
-	Tags models.Tags
-	Keys []string
-	Do   func(point models.Point) error
+	Measurement string
+	Tags        models.Tags
+	Keys        []string
+	Evaluator   Evaluator
 }
 
 type Rules map[string][]*Rule
@@ -19,16 +19,21 @@ func New() Rules {
 	return make(map[string][]*Rule)
 }
 
-func FromConfig(cnf *config.Rules) (Rules, error) {
+func FromConfig(cnf *config.Config) (Rules, error) {
 	rules := New()
 	for _, rule := range cnf.Rules {
-		_, ok := rules[rule.Name]
+		_, ok := rules[rule.Measurement]
 		if !ok {
-			rules[rule.Name] = make([]*Rule, 0)
+			rules[rule.Measurement] = make([]*Rule, 0)
 		}
-		rules[rule.Name] = append(rules[rule.Name], &Rule{
-			Name: rule.Name,
-			Tags: models.NewTags(rule.Tags),
+		e, err := NewExprEvaluator(rule.Expr)
+		if err != nil {
+			return nil, err
+		}
+		rules[rule.Measurement] = append(rules[rule.Measurement], &Rule{
+			Measurement: rule.Measurement,
+			Tags:        models.NewTags(rule.TagPass),
+			Evaluator:   e,
 		})
 	}
 	return rules, nil
@@ -40,9 +45,8 @@ func (r Rules) Append(name string, tags Tags, do func(point models.Point) error)
 		r[name] = make([]*Rule, 0)
 	}
 	r[name] = append(r[name], &Rule{
-		Name: name,
-		Tags: models.NewTags(tags),
-		Do:   do,
+		Measurement: name,
+		Tags:        models.NewTags(tags),
 	})
 }
 
@@ -53,11 +57,6 @@ func (r Rules) Filter(point models.Point) error {
 	}
 	for _, rule := range rr {
 		if models.CompareTags(point.Tags(), rule.Tags) <= 0 {
-			err := rule.Do(point)
-			if err != nil {
-				// Crash early
-				return err
-			}
 		}
 	}
 	return nil

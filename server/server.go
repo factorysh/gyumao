@@ -6,20 +6,28 @@ import (
 
 	"io/ioutil"
 
+	"github.com/factorysh/gyumao/rule"
 	"github.com/influxdata/influxdb/models"
 	log "github.com/sirupsen/logrus"
-	"github.com/factorysh/gyumao/rule"
 )
 
 type Server struct {
 	points chan models.Points
-	rules  *rule.Rules
+	rules  map[string][]*rule.Rule
 }
 
 func New(rules *rule.Rules) *Server {
 	s := &Server{
 		points: make(chan models.Points, 1024),
-		rules:  rules,
+		rules:  make(map[string][]*rule.Rule),
+	}
+	for _, r := range rules.Rules {
+		_, ok := s.rules[r.Measurement]
+		if !ok {
+			s.rules[r.Measurement] = []*rule.Rule{r}
+		} else {
+			s.rules[r.Measurement] = append(s.rules[r.Measurement], r)
+		}
 	}
 	return s
 }
