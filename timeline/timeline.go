@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+// Timeline is fixed size events store.
+// Fresh events erase old events.
 type Timeline struct {
 	size  int
 	store map[time.Time]interface{}
@@ -12,6 +14,7 @@ type Timeline struct {
 	lock  sync.Mutex
 }
 
+// New returns a new Timeline
 func New(size int) *Timeline {
 	return &Timeline{
 		size:  size,
@@ -21,6 +24,7 @@ func New(size int) *Timeline {
 	}
 }
 
+// Copy return a deep copy of the Timeline.
 func (t *Timeline) Copy() *Timeline {
 	t.lock.Lock()
 	defer t.lock.Unlock()
@@ -33,6 +37,7 @@ func (t *Timeline) Copy() *Timeline {
 	return tt
 }
 
+// Set an event, with a timestamp
 func (t *Timeline) Set(ts time.Time, v interface{}) {
 	t.lock.Lock()
 	defer t.lock.Unlock()
@@ -55,14 +60,17 @@ func (t *Timeline) Set(ts time.Time, v interface{}) {
 	}
 }
 
+// First returns oldest event
 func (t *Timeline) First() interface{} {
 	return t.store[t.keys[0]]
 }
 
+// Last returns newest event
 func (t *Timeline) Last() interface{} {
 	return t.store[t.keys[len(t.keys)-1]]
 }
 
+// Length returns number of stored events
 func (t *Timeline) Lenght() int {
 	return len(t.keys)
 }
