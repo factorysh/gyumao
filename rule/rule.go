@@ -80,6 +80,40 @@ func (r Rules) Append(name string, rule *Rule) {
 	}
 }
 
+// Visit one Rule, with a point and a callback
+func (r Rule) Visit(point models.Point, do func(point models.Point) error) error {
+	l := log.WithField("point", point)
+	for t, filter := range r.TagsPass {
+		l = l.WithField("tag name", t)
+		tag := []byte(t)
+		if !point.HasTag(tag) {
+			l.Info("No tag")
+			return nil
+		}
+		v := point.Tags().Get(tag)
+		if !filter.Match(string(v)) {
+			l.WithField("value", string(v)).Info("Don't match")
+			return nil
+		}
+	}
+	for t, filter := range r.TagsExclude {
+		tag := []byte(t)
+		if !point.HasTag(tag) {
+			return nil
+		}
+		v := point.Tags().Get(tag)
+		if filter.Match(string(v)) {
+			return nil
+		}
+	}
+	err := do(point)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Visit all Rules with a Point and a callback
 func (r Rules) Visit(point models.Point, do func(point models.Point) error) error {
 	name := string(point.Name())
 	rules, ok := r[name]
@@ -87,27 +121,7 @@ func (r Rules) Visit(point models.Point, do func(point models.Point) error) erro
 		return nil
 	}
 	for _, rule := range rules {
-		for t, filter := range rule.TagsPass {
-			tag := []byte(t)
-			if !point.HasTag(tag) {
-				continue
-			}
-			v := point.Tags().Get(tag)
-			if !filter.Match(string(v)) {
-				continue
-			}
-		}
-		for t, filter := range rule.TagsExclude {
-			tag := []byte(t)
-			if !point.HasTag(tag) {
-				continue
-			}
-			v := point.Tags().Get(tag)
-			if filter.Match(string(v)) {
-				continue
-			}
-		}
-		err := do(point)
+		err := rule.Visit(point, do)
 		if err != nil {
 			return err
 		}

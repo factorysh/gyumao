@@ -6,10 +6,12 @@ import (
 
 	"github.com/factorysh/gyumao/config"
 	"github.com/influxdata/influxdb/models"
+	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestRules(t *testing.T) {
+	log.SetLevel(log.InfoLevel)
 	rules, err := FromConfig(&config.Config{
 		Rules: []*config.Rule{
 			&config.Rule{
@@ -30,10 +32,21 @@ func TestRules(t *testing.T) {
 	assert.NoError(t, err)
 
 	match := 0
-	err = rules.Visit(point, func(p models.Point) error {
+	v := func(p models.Point) error {
 		match++
 		return nil
-	})
+	}
+	err = rules.Visit(point, v)
 	assert.Equal(t, 1, match)
 
+	point, err = models.NewPoint(
+		"http",
+		models.NewTags(map[string]string{"status": "404"}),
+		models.Fields{"size": 2},
+		time.Now())
+	assert.NoError(t, err)
+
+	match = 0
+	err = rules.Visit(point, v)
+	assert.Equal(t, 0, match)
 }
