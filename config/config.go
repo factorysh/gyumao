@@ -6,8 +6,8 @@ type Config struct {
 
 type Rule struct {
 	Measurement string            `yaml:"measurement"`
-	TagPass     map[string]string `yaml:"tag_pass"`
-	TagExclude  map[string]string `yaml:"tag_exclude"`
+	TagsPass     map[string][]string `yaml:"tags_pass"`
+	TagsExclude  map[string][]string `yaml:"tags_exclude"`
 	GroupBy     []string          `yaml:"group_by"`
 	MaxAge      uint              `yaml:"max-age"`
 	Expr        string            `yaml:"expr"`

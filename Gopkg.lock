@@ -35,6 +35,23 @@
   version = "v1.1.1"
 
 [[projects]]
+  digest = "1:9ae31ce33b4bab257668963e844d98765b44160be4ee98cafc44637a213e530d"
+  name = "github.com/gobwas/glob"
+  packages = [
+    ".",
+    "compiler",
+    "match",
+    "syntax",
+    "syntax/ast",
+    "syntax/lexer",
+    "util/runes",
+    "util/strings",
+  ]
+  pruneopts = "UT"
+  revision = "5ccd90ef52e1e632236f7326478d4faa74f99438"
+  version = "v0.2.3"
+
+[[projects]]
   digest = "1:8d678f51626cf8bacd9f7f3ba4a2543f0adb2b7fb744cb810d0530788576817e"
   name = "github.com/influxdata/influxdb"
   packages = [
@@ -44,6 +61,14 @@
   pruneopts = "UT"
   revision = "01c8dd416270f424ab0c40f9291e269ac6921964"
   version = "v1.7.6"
+
+[[projects]]
+  digest = "1:570eb2c08968edd12d6e05e04386bfcd48b3e339c7c239da0e8771eff8d5e3c7"
+  name = "github.com/influxdata/telegraf"
+  packages = ["filter"]
+  pruneopts = "UT"
+  revision = "d6024fd2ef78ee0083273e59a6f5f90873bac942"
+  version = "1.11.3"
 
 [[projects]]
   digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
@@ -108,14 +133,6 @@
   revision = "342b2e1fbaa52c93f31447ad2c6abc048c63e475"
   version = "v0.3.2"
 
-[[projects]]
-  digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
-  name = "gopkg.in/yaml.v2"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
-  version = "v2.2.2"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
@@ -123,10 +140,10 @@
     "github.com/antonmedv/expr",
     "github.com/antonmedv/expr/vm",
     "github.com/influxdata/influxdb/models",
+    "github.com/influxdata/telegraf/filter",
     "github.com/sirupsen/logrus",
     "github.com/stretchr/testify/assert",
     "github.com/willf/bitset",
-    "gopkg.in/yaml.v2",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
