@@ -1,9 +1,13 @@
 package rule
 
 import (
+	"fmt"
+
+	"github.com/antonmedv/expr"
 	_expr "github.com/antonmedv/expr"
 	"github.com/antonmedv/expr/vm"
 	"github.com/influxdata/influxdb/models"
+	log "github.com/sirupsen/logrus"
 )
 
 type Evaluator interface {
@@ -25,6 +29,34 @@ func NewExprEvaluator(expr string) (*ExprEvaluator, error) {
 }
 
 func (e *ExprEvaluator) Eval(point models.Point) (bool, error) {
-	// TODO
-	return false, nil
+	l := log.WithField("Point", point)
+	/*
+		src := e.prog.Source
+		if src != nil {
+			l = l.WithField("Expression", src.Content())
+		}
+	*/
+	fields, err := point.Fields()
+	if err != nil {
+		l.WithError(err).Error()
+		return false, err
+	}
+
+	l = l.WithField("env", fields)
+	l.Info()
+
+	out, err := expr.Run(e.prog, fields)
+	if err != nil {
+		fmt.Println(err)
+		l.WithError(err).Error()
+		return false, err
+	}
+	resp, ok := out.(bool)
+	if !ok {
+		err = fmt.Errorf("Expr returns bad type: %p", out)
+		log.WithError(err).Error()
+		return false, err
+	}
+	l.Info()
+	return resp, nil
 }

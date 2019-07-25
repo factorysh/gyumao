@@ -11,20 +11,22 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:4bb408522c7f28a26117c8f3588784b55e80fd589e908e81c16659d93492c37f"
+  digest = "1:2521eac07172c7611983820d40b621c25153c7f072b479e8801e06e49a6287c1"
   name = "github.com/antonmedv/expr"
   packages = [
     ".",
     "ast",
     "checker",
     "compiler",
+    "internal/conf",
     "internal/file",
+    "optimizer",
     "parser",
     "parser/gen",
     "vm",
   ]
   pruneopts = "UT"
-  revision = "6180b0b32269d85269af823182d265d440f8a47d"
+  revision = "9449c89f5e277eb2ce439695fdc81f3f4f7cacce"
 
 [[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
@@ -59,8 +61,8 @@
     "pkg/escape",
   ]
   pruneopts = "UT"
-  revision = "01c8dd416270f424ab0c40f9291e269ac6921964"
-  version = "v1.7.6"
+  revision = "f8fdf652f348fc9980997fe1c972e2b79ddd13b0"
+  version = "v1.7.7"
 
 [[projects]]
   digest = "1:570eb2c08968edd12d6e05e04386bfcd48b3e339c7c239da0e8771eff8d5e3c7"
@@ -112,11 +114,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:8f5108406bc43c7669b0d67d282e40d05c9f268615fcaf8c1f0f76965aa3f09f"
+  digest = "1:5632b0c4d972da51b5914f09fc5c1a8535e9d8d5d937e95ef83c423a0dd67f13"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = "UT"
-  revision = "301114b31cced3624480dfb114ca1b495ec69aa5"
+  revision = "fae7ac547cb717d141c433a2a173315e216b64c4"
 
 [[projects]]
   digest = "1:9d9ab00a80ca133b65a1d0f398c3dc2df244255e82a51784bad02cd70ed973f3"

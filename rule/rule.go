@@ -106,6 +106,17 @@ func (r Rule) Visit(point models.Point, do func(point models.Point) error) error
 			return nil
 		}
 	}
+
+	if r.Evaluator != nil {
+		ok, err := r.Evaluator.Eval(point)
+		if err != nil {
+			return err
+		}
+		if !ok {
+			l.Info("Evaluator says no")
+			return nil
+		}
+	}
 	err := do(point)
 	if err != nil {
 		return err
