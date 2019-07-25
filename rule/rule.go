@@ -41,7 +41,7 @@ func FromConfig(cnf *config.Config) (Rules, error) {
 	l := log.WithField("config", cnf)
 	for _, rule := range cnf.Rules {
 		l = l.WithField("rule", *rule)
-		var e *ExprEvaluator
+		var e Evaluator
 		var err error
 		if rule.Expr != "" {
 			e, err = NewExprEvaluator(rule.Expr)
@@ -49,7 +49,10 @@ func FromConfig(cnf *config.Config) (Rules, error) {
 				l.WithError(err).Error()
 				return nil, err
 			}
+		} else {
+			e = &YesEvaluator{}
 		}
+
 		tp, err := tags(rule.TagsPass)
 		if err != nil {
 			l.WithError(err).Error()
@@ -107,17 +110,15 @@ func (r Rule) Visit(point models.Point, do func(point models.Point) error) error
 		}
 	}
 
-	if r.Evaluator != nil {
-		ok, err := r.Evaluator.Eval(point)
-		if err != nil {
-			return err
-		}
-		if !ok {
-			l.Info("Evaluator says no")
-			return nil
-		}
+	ok, err := r.Evaluator.Eval(point)
+	if err != nil {
+		return err
 	}
-	err := do(point)
+	if !ok {
+		l.Info("Evaluator says no")
+		return nil
+	}
+	err = do(point)
 	if err != nil {
 		return err
 	}

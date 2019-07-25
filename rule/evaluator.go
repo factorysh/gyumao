@@ -14,6 +14,13 @@ type Evaluator interface {
 	Eval(models.Point) (bool, error)
 }
 
+type YesEvaluator struct {
+}
+
+func (y *YesEvaluator) Eval(point models.Point) (bool, error) {
+	return true, nil
+}
+
 type ExprEvaluator struct {
 	prog *vm.Program
 }
