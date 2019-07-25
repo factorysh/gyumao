@@ -29,13 +29,7 @@ func NewExprEvaluator(expr string) (*ExprEvaluator, error) {
 }
 
 func (e *ExprEvaluator) Eval(point models.Point) (bool, error) {
-	l := log.WithField("Point", point)
-	/*
-		src := e.prog.Source
-		if src != nil {
-			l = l.WithField("Expression", src.Content())
-		}
-	*/
+	l := log.WithField("Point", point).WithField("Expression", e.prog.Source.Content())
 	fields, err := point.Fields()
 	if err != nil {
 		l.WithError(err).Error()
