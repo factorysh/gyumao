@@ -1,10 +1,12 @@
 package deadman
 
+// Genealogy stores deads over time
 type Genealogy struct {
 	genealogies []*DeadRegistry
 	rank        int // Age
 }
 
+// New Genealogy with a size and a number of generation
 func New(generation int, size uint) *Genealogy {
 	genealogies := make([]*DeadRegistry, generation)
 	for i := 0; i < generation; i++ {
@@ -15,6 +17,7 @@ func New(generation int, size uint) *Genealogy {
 	}
 }
 
+// Tick add one more generation
 func (g *Genealogy) Tick() {
 	// FIXME it's not threadsafe
 	g.rank++
@@ -23,6 +26,7 @@ func (g *Genealogy) Tick() {
 	}
 }
 
+// Current generation
 func (g *Genealogy) Current() *DeadRegistry {
 	return g.genealogies[g.rank]
 }
@@ -32,6 +36,7 @@ func (g *Genealogy) previous(n int) int {
 	return (g.rank + l - n) % l
 }
 
+// Previous generation
 func (g *Genealogy) Previous(n int) *DeadRegistry {
 	// return nil if n > size
 	if n >= (len(g.genealogies)-1) || n < 0 {
@@ -40,6 +45,7 @@ func (g *Genealogy) Previous(n int) *DeadRegistry {
 	return g.genealogies[g.previous(n)]
 }
 
+// Crunch n generations with a logical OR
 func (g *Genealogy) Crunch(n int) *DeadRegistry {
 	if n >= (len(g.genealogies)-1) || n <= 0 {
 		return nil
