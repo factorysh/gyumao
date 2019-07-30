@@ -11,7 +11,7 @@ type Rule struct {
 	Measurement string
 	TagsPass    Tags
 	TagsExclude Tags
-	Keys        []string
+	GroupBy     []string
 	Evaluator   Evaluator
 }
 
