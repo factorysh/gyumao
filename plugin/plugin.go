@@ -11,6 +11,15 @@ type Response struct {
 	Error error
 }
 
+type Meta struct {
+	Version string
+	Class   string
+}
+
+type Plugin interface {
+	Meta() *Meta
+}
+
 type Expr interface {
 	Do(interface{}) (interface{}, error)
 }
