@@ -2,7 +2,9 @@ package plugin
 
 import (
 	"net/rpc"
+	"os"
 
+	"github.com/hashicorp/go-hclog"
 	"github.com/hashicorp/go-plugin"
 )
 
@@ -36,12 +38,25 @@ type PluginRPCServer struct{ Impl Plugin }
 func (s *PluginRPCServer) Meta(args interface{}, resp *Meta) error {
 	var err error
 	resp, err = s.Impl.Meta()
+
+	logger := hclog.New(&hclog.LoggerOptions{
+		Level:      hclog.Trace,
+		Output:     os.Stderr,
+		JSONFormat: true,
+	})
+	logger.Info("PluginRPCServer.Meta", "resp", resp, "error", err)
 	return err
 }
 
 type PluginPlugin struct{ Impl Plugin }
 
-func (p *PluginPlugin) Server(*plugin.MuxBroker) (interface{}, error) {
+func (p *PluginPlugin) Server(broker *plugin.MuxBroker) (interface{}, error) {
+	logger := hclog.New(&hclog.LoggerOptions{
+		Level:      hclog.Trace,
+		Output:     os.Stderr,
+		JSONFormat: true,
+	})
+	logger.Info("PluginPlugin.iServer", "broker", broker)
 	return &PluginRPCServer{Impl: p.Impl}, nil
 }
 
