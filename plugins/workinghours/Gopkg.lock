@@ -2,56 +2,12 @@
 
 
 [[projects]]
-  digest = "1:d04889482897652dedae6d8575b479c06fa3eb3c3abe248163b25d3df5fab43e"
-  name = "github.com/antlr/antlr4"
-  packages = ["runtime/Go/antlr"]
-  pruneopts = "UT"
-  revision = "be58ebffde8e29c154192c019608f0a5b8e6a064"
-  version = "4.7.2"
-
-[[projects]]
   branch = "master"
-  digest = "1:2521eac07172c7611983820d40b621c25153c7f072b479e8801e06e49a6287c1"
-  name = "github.com/antonmedv/expr"
-  packages = [
-    ".",
-    "ast",
-    "checker",
-    "compiler",
-    "internal/conf",
-    "internal/file",
-    "optimizer",
-    "parser",
-    "parser/gen",
-    "vm",
-  ]
+  digest = "1:4bf8fc988ab3b3e72d441302fd9b0edba18840c13f758b577c72af76bd0154e3"
+  name = "github.com/factorysh/gyumao"
+  packages = ["plugin"]
   pruneopts = "UT"
-  revision = "9449c89f5e277eb2ce439695fdc81f3f4f7cacce"
-
-[[projects]]
-  digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
-  name = "github.com/davecgh/go-spew"
-  packages = ["spew"]
-  pruneopts = "UT"
-  revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
-  version = "v1.1.1"
-
-[[projects]]
-  digest = "1:9ae31ce33b4bab257668963e844d98765b44160be4ee98cafc44637a213e530d"
-  name = "github.com/gobwas/glob"
-  packages = [
-    ".",
-    "compiler",
-    "match",
-    "syntax",
-    "syntax/ast",
-    "syntax/lexer",
-    "util/runes",
-    "util/strings",
-  ]
-  pruneopts = "UT"
-  revision = "5ccd90ef52e1e632236f7326478d4faa74f99438"
-  version = "v0.2.3"
+  revision = "265d52952f56da2ffb6b25caf77a6837bbe43865"
 
 [[projects]]
   digest = "1:f5ce1529abc1204444ec73779f44f94e2fa8fcdb7aca3c355b0c95947e4005c6"
@@ -95,33 +51,6 @@
   revision = "2f1d1f20f75d5404f53b9edf6b53ed5505508675"
 
 [[projects]]
-  digest = "1:8d678f51626cf8bacd9f7f3ba4a2543f0adb2b7fb744cb810d0530788576817e"
-  name = "github.com/influxdata/influxdb"
-  packages = [
-    "models",
-    "pkg/escape",
-  ]
-  pruneopts = "UT"
-  revision = "f8fdf652f348fc9980997fe1c972e2b79ddd13b0"
-  version = "v1.7.7"
-
-[[projects]]
-  digest = "1:570eb2c08968edd12d6e05e04386bfcd48b3e339c7c239da0e8771eff8d5e3c7"
-  name = "github.com/influxdata/telegraf"
-  packages = ["filter"]
-  pruneopts = "UT"
-  revision = "d9ca76e493b8a2266adaf01e0301e9e79fa5ca69"
-  version = "1.11.4"
-
-[[projects]]
-  digest = "1:31e761d97c76151dde79e9d28964a812c46efc5baee4085b86f68f0c654450de"
-  name = "github.com/konsorten/go-windows-terminal-sequences"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "f55edac94c9bbba5d6182a4be46d86a2c9b5b50e"
-  version = "v1.0.2"
-
-[[projects]]
   digest = "1:42eb1f52b84a06820cedc9baec2e710bfbda3ee6dac6cdb97f8b9a5066134ec6"
   name = "github.com/mitchellh/go-testing-interface"
   packages = ["."]
@@ -136,38 +65,6 @@
   pruneopts = "UT"
   revision = "4dadeb3030eda0273a12382bb2348ffc7c9d1a39"
   version = "v1.0.0"
-
-[[projects]]
-  digest = "1:0028cb19b2e4c3112225cd871870f2d9cf49b9b4276531f03438a88e94be86fe"
-  name = "github.com/pmezard/go-difflib"
-  packages = ["difflib"]
-  pruneopts = "UT"
-  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
-  version = "v1.0.0"
-
-[[projects]]
-  digest = "1:04457f9f6f3ffc5fea48e71d62f2ca256637dee0a04d710288e27e05c8b41976"
-  name = "github.com/sirupsen/logrus"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "839c75faf7f98a33d445d181f3018b5c3409a45e"
-  version = "v1.4.2"
-
-[[projects]]
-  digest = "1:972c2427413d41a1e06ca4897e8528e5a1622894050e2f527b38ddf0f343f759"
-  name = "github.com/stretchr/testify"
-  packages = ["assert"]
-  pruneopts = "UT"
-  revision = "ffdc059bfe9ce6a4e144ba849dbedead332c6053"
-  version = "v1.3.0"
-
-[[projects]]
-  digest = "1:85ddc8a0e53c1ebe8ba228f2303fb156feffd8f2b4bead4d1d0af9c293c6054f"
-  name = "github.com/willf/bitset"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "20ad246f50b49590afcb1ed8ad143da7163869cb"
-  version = "v1.1.10"
 
 [[projects]]
   branch = "master"
@@ -194,7 +91,7 @@
   revision = "51ab0e2deafac1f46c46ad59cf0921be2f180c3d"
 
 [[projects]]
-  digest = "1:66a2f252a58b4fbbad0e4e180e1d85a83c222b6bce09c3dcdef3dc87c72eda7c"
+  digest = "1:8d8faad6b12a3a4c819a3f9618cb6ee1fa1cfc33253abeeea8b55336721e3405"
   name = "golang.org/x/text"
   packages = [
     "collate",
@@ -213,7 +110,6 @@
     "unicode/cldr",
     "unicode/norm",
     "unicode/rangetable",
-    "width",
   ]
   pruneopts = "UT"
   revision = "342b2e1fbaa52c93f31447ad2c6abc048c63e475"
@@ -275,15 +171,9 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/antonmedv/expr",
-    "github.com/antonmedv/expr/vm",
+    "github.com/factorysh/gyumao/plugin",
     "github.com/hashicorp/go-hclog",
     "github.com/hashicorp/go-plugin",
-    "github.com/influxdata/influxdb/models",
-    "github.com/influxdata/telegraf/filter",
-    "github.com/sirupsen/logrus",
-    "github.com/stretchr/testify/assert",
-    "github.com/willf/bitset",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

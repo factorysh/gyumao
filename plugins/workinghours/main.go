@@ -1,0 +1,62 @@
+package main
+
+import (
+	"os"
+	"time"
+
+	_plugin "github.com/factorysh/gyumao/plugin"
+	"github.com/hashicorp/go-hclog"
+	"github.com/hashicorp/go-plugin"
+)
+
+var version = "0.0.0"
+
+type WorkingHours struct {
+	logger hclog.Logger
+}
+
+func (w *WorkingHours) Time(t time.Time) _plugin.Tags {
+	tags := make(_plugin.Tags)
+	if t.Hour() < 8 || t.Hour() > 18 {
+		tags["working"] = "not"
+		return tags
+	}
+	tags["working"] = "working"
+	return tags
+}
+
+func (w *WorkingHours) Meta() (_plugin.Meta, error) {
+	m := _plugin.Meta{
+		Class:   "hours",
+		Version: version,
+	}
+	w.logger.Info("Meta rulez", "meta", m, "pid", os.Getpid())
+	return m, nil
+}
+
+var handshakeConfig = plugin.HandshakeConfig{
+	ProtocolVersion:  1,
+	MagicCookieKey:   "BASIC_PLUGIN",
+	MagicCookieValue: "hello",
+}
+
+func main() {
+	logger := hclog.New(&hclog.LoggerOptions{
+		Level:      hclog.Trace,
+		Output:     os.Stderr,
+		JSONFormat: true,
+	})
+
+	w := &WorkingHours{logger: logger}
+
+	logger.Debug("Workinghours plugin is initialized")
+	var pluginMap = map[string]plugin.Plugin{
+		"workingHours": &_plugin.HoursPlugin{Impl: w},
+		"meta":         &_plugin.PluginPlugin{Impl: w},
+	}
+	plugin.Serve(&plugin.ServeConfig{
+		HandshakeConfig: handshakeConfig,
+		Plugins:         pluginMap,
+	})
+	logger.Debug("Workinghours plugin is closed")
+}
