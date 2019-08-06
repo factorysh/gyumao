@@ -17,36 +17,34 @@ type Meta struct {
 }
 
 type Plugin interface {
-	Meta() *Meta
+	Meta() (*Meta, error)
 }
 
-type Expr interface {
-	Do(interface{}) (interface{}, error)
-}
+type PluginRPC struct{ client *rpc.Client }
 
-type ExprRPC struct{ client *rpc.Client }
-
-func (g *ExprRPC) Do(arg interface{}) (interface{}, error) {
-	var resp Response
-	err := g.client.Call("Plugin.Expr", arg, &resp)
+func (g *PluginRPC) Meta() (*Meta, error) {
+	var meta Meta
+	err := g.client.Call("Plugin.Meta", new(interface{}), &meta)
 	if err != nil {
 		return nil, err
 	}
-
-	return resp.Value, resp.Error
+	return &meta, nil
 }
 
-type ExprRPCServer struct{ Impl Expr }
+type PluginRPCServer struct{ Impl Plugin }
 
-func (s *ExprRPCServer) Do(arg interface{}, resp *Response) error {
-	r, err := s.Impl.Do(arg)
-	resp.Value = r
-	resp.Error = err
-	return nil
+func (s *PluginRPCServer) Meta(args interface{}, resp *Meta) error {
+	var err error
+	resp, err = s.Impl.Meta()
+	return err
 }
 
-type ExprPlugin struct{ Impl Expr }
+type PluginPlugin struct{ Impl Plugin }
 
-func (p *ExprPlugin) Server(*plugin.MuxBroker) (interface{}, error) {
-	return &ExprRPCServer{Impl: p.Impl}, nil
+func (p *PluginPlugin) Server(*plugin.MuxBroker) (interface{}, error) {
+	return &PluginRPCServer{Impl: p.Impl}, nil
+}
+
+func (PluginPlugin) Client(b *plugin.MuxBroker, c *rpc.Client) (interface{}, error) {
+	return &PluginRPC{client: c}, nil
 }
