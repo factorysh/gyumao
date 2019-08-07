@@ -10,7 +10,7 @@ import (
 type Tags map[string]string
 
 type Hours interface {
-	Time(time.Time) Tags
+	Time(time.Time) (Tags, error)
 }
 
 type HoursRPC struct{ client *rpc.Client }
@@ -31,8 +31,9 @@ func (g *HoursRPC) Now() (Tags, error) {
 type HoursRPCServer struct{ Impl Hours }
 
 func (s *HoursRPCServer) Time(args time.Time, resp *Tags) error {
-	*resp = s.Impl.Time(args)
-	return nil
+	var err error
+	*resp, err = s.Impl.Time(args)
+	return err
 }
 
 type HoursPlugin struct{ Impl Hours }
