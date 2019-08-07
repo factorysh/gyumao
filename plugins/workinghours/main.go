@@ -13,6 +13,7 @@ var version = "0.0.0"
 
 type WorkingHours struct {
 	logger hclog.Logger
+	config map[string]interface{}
 }
 
 func (w *WorkingHours) Time(t time.Time) _plugin.Tags {
@@ -34,6 +35,12 @@ func (w *WorkingHours) Meta() (_plugin.Meta, error) {
 	return m, nil
 }
 
+func (w *WorkingHours) Setup(config map[string]interface{}) error {
+	w.logger.Info("Setup", "config", config)
+	w.config = config
+	return nil
+}
+
 var handshakeConfig = plugin.HandshakeConfig{
 	ProtocolVersion:  1,
 	MagicCookieKey:   "BASIC_PLUGIN",
@@ -42,9 +49,10 @@ var handshakeConfig = plugin.HandshakeConfig{
 
 func main() {
 	logger := hclog.New(&hclog.LoggerOptions{
-		Level:      hclog.Trace,
-		Output:     os.Stderr,
-		JSONFormat: true,
+		Level:           hclog.Trace,
+		Output:          os.Stderr,
+		JSONFormat:      true,
+		IncludeLocation: true,
 	})
 
 	w := &WorkingHours{logger: logger}
