@@ -28,9 +28,13 @@ func (g *PluginRPC) Meta() (Meta, error) {
 }
 
 func (g *PluginRPC) Setup(config map[string]interface{}) error {
-	err := g.client.Call("Plugin.Setup", &config, new(interface{}))
+	var err2 plugin.BasicError
+	err := g.client.Call("Plugin.Setup", &config, &err2)
 	if err != nil {
 		return err
+	}
+	if err2.Error() == "" {
+		return &err2
 	}
 	return nil
 }
