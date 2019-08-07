@@ -13,6 +13,7 @@ type Meta struct {
 
 type Plugin interface {
 	Meta() (Meta, error)
+	Setup(map[string]interface{}) error
 }
 
 type PluginRPC struct{ client *rpc.Client }
@@ -26,6 +27,14 @@ func (g *PluginRPC) Meta() (Meta, error) {
 	return meta, nil
 }
 
+func (g *PluginRPC) Setup(config map[string]interface{}) error {
+	err := g.client.Call("Plugin.Setup", &config, new(interface{}))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 type PluginRPCServer struct{ Impl Plugin }
 
 func (s *PluginRPCServer) Meta(args interface{}, resp *Meta) error {
@@ -33,6 +42,10 @@ func (s *PluginRPCServer) Meta(args interface{}, resp *Meta) error {
 	*resp, err = s.Impl.Meta()
 
 	return err
+}
+
+func (s *PluginRPCServer) Setup(args map[string]interface{}, resp interface{}) error {
+	return s.Impl.Setup(args)
 }
 
 type PluginPlugin struct{ Impl Plugin }
