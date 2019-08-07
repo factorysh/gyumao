@@ -19,10 +19,10 @@ type WorkingHours struct {
 func (w *WorkingHours) Time(t time.Time) (_plugin.Tags, error) {
 	tags := make(_plugin.Tags)
 	if t.Hour() < 8 || t.Hour() > 18 {
-		tags["working"] = "not"
+		tags["hours"] = "not"
 		return tags, nil
 	}
-	tags["working"] = "working"
+	tags["hours"] = "working"
 	return tags, nil
 }
 
