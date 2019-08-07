@@ -30,7 +30,7 @@ func (w *WorkingHours) Meta() (_plugin.Meta, error) {
 		Class:   "hours",
 		Version: version,
 	}
-	w.logger.Info("Meta rulez", "meta", m, "pid", os.Getpid())
+	w.logger.Info("Meta rulez", "meta", m)
 	return m, nil
 }
 
