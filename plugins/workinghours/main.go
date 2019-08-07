@@ -16,14 +16,14 @@ type WorkingHours struct {
 	config map[string]interface{}
 }
 
-func (w *WorkingHours) Time(t time.Time) _plugin.Tags {
+func (w *WorkingHours) Time(t time.Time) (_plugin.Tags, error) {
 	tags := make(_plugin.Tags)
 	if t.Hour() < 8 || t.Hour() > 18 {
 		tags["working"] = "not"
-		return tags
+		return tags, nil
 	}
 	tags["working"] = "working"
-	return tags
+	return tags, nil
 }
 
 func (w *WorkingHours) Meta() (_plugin.Meta, error) {
@@ -59,8 +59,8 @@ func main() {
 
 	logger.Debug("Workinghours plugin is initialized")
 	var pluginMap = map[string]plugin.Plugin{
-		"workingHours": &_plugin.HoursPlugin{Impl: w},
-		"meta":         &_plugin.PluginPlugin{Impl: w},
+		"hours":  &_plugin.HoursPlugin{Impl: w},
+		"plugin": &_plugin.PluginPlugin{Impl: w},
 	}
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: handshakeConfig,

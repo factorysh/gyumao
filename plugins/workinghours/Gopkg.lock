@@ -3,11 +3,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:a11dbf1574703c222cec999176c2912c5e422153fcb6d5b1854cd4d08b28e1d2"
+  digest = "1:6fe7830edd99de02ed57d1d26c20faa9afad68286958598d5327c6ba022283c1"
   name = "github.com/factorysh/gyumao"
   packages = ["plugin"]
   pruneopts = "UT"
-  revision = "0ee327e8141386a26334bcd4535bd2a261bb1173"
+  revision = "5abdcdfb35c4be38b051255dc12e05fa93c1faaf"
 
 [[projects]]
   digest = "1:f5ce1529abc1204444ec73779f44f94e2fa8fcdb7aca3c355b0c95947e4005c6"

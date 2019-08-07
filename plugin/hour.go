@@ -17,7 +17,7 @@ type HoursRPC struct{ client *rpc.Client }
 
 func (g *HoursRPC) Time(t time.Time) (Tags, error) {
 	var resp Tags
-	err := g.client.Call("Plugin.Hours", t, &resp)
+	err := g.client.Call("Plugin.Time", t, &resp)
 	if err != nil {
 		return nil, err
 	}
