@@ -11,11 +11,13 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// Server get Points, over HTTP, just like influxdb does
 type Server struct {
 	points chan models.Points
 	rules  map[string][]*rule.Rule
 }
 
+// New Server
 func New(rules *rule.Rules) *Server {
 	s := &Server{
 		points: make(chan models.Points, 1024),
@@ -32,6 +34,7 @@ func New(rules *rule.Rules) *Server {
 	return s
 }
 
+// Start listening the channel for points, and applying Rules on them
 func (s *Server) Start() error {
 	for {
 		points := <-s.points
@@ -43,6 +46,7 @@ func (s *Server) Start() error {
 	}
 }
 
+// Write is the HTTP endpoint for listening Influxdb's Points
 func (s *Server) Write(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
