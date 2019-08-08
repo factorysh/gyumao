@@ -8,6 +8,18 @@ type Config struct {
 	Plugins        map[string]map[string]interface{} `yaml:"plugins"`
 }
 
+func (c *Config) Default() {
+	if c.InfluxdbListen == "" {
+		c.InfluxdbListen = ":8066"
+	}
+	if c.Rules == nil {
+		c.Rules = make([]*Rule, 0)
+	}
+	if c.PluginFolder == "" {
+		c.PluginFolder = "/var/lib/gyumao/plugins"
+	}
+}
+
 // Rule describes what to do with Influxdb events
 type Rule struct {
 	Measurement string              `yaml:"measurement"`

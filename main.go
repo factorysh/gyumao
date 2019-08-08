@@ -24,6 +24,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	cfg.Default()
 
 	gyumao, err := _gyumao.New(&cfg)
 	if err != nil {
