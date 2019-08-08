@@ -84,7 +84,7 @@ func (r Rules) Append(name string, rule *Rule) {
 }
 
 // Visit one Rule, with a point and a callback
-func (r Rule) Visit(point models.Point, do func(point models.Point) error) error {
+func (r Rule) Visit(point models.Point, context map[string]interface{}, do func(point models.Point) error) error {
 	l := log.WithField("point", point)
 	for t, filter := range r.TagsPass {
 		l = l.WithField("tag name", t)
@@ -110,7 +110,7 @@ func (r Rule) Visit(point models.Point, do func(point models.Point) error) error
 		}
 	}
 
-	ok, err := r.Evaluator.Eval(point)
+	ok, err := r.Evaluator.Eval(point, context)
 	if err != nil {
 		return err
 	}
@@ -126,14 +126,14 @@ func (r Rule) Visit(point models.Point, do func(point models.Point) error) error
 }
 
 // Visit all Rules with a Point and a callback
-func (r Rules) Visit(point models.Point, do func(point models.Point) error) error {
+func (r Rules) Visit(point models.Point, context map[string]interface{}, do func(point models.Point) error) error {
 	name := string(point.Name())
 	rules, ok := r[name]
 	if !ok {
 		return nil
 	}
 	for _, rule := range rules {
-		err := rule.Visit(point, do)
+		err := rule.Visit(point, context, do)
 		if err != nil {
 			return err
 		}

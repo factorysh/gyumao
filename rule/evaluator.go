@@ -11,13 +11,13 @@ import (
 )
 
 type Evaluator interface {
-	Eval(models.Point) (bool, error)
+	Eval(point models.Point, context map[string]interface{}) (bool, error)
 }
 
 type YesEvaluator struct {
 }
 
-func (y *YesEvaluator) Eval(point models.Point) (bool, error) {
+func (y *YesEvaluator) Eval(models.Point, map[string]interface{}) (bool, error) {
 	return true, nil
 }
 
@@ -35,8 +35,12 @@ func NewExprEvaluator(expr string) (*ExprEvaluator, error) {
 	}, nil
 }
 
-func (e *ExprEvaluator) Eval(point models.Point) (bool, error) {
-	l := log.WithField("Point", point).WithField("Expression", e.prog.Source.Content())
+func (e *ExprEvaluator) Eval(point models.Point, context map[string]interface{}) (bool, error) {
+	l := log.WithFields(log.Fields{
+		"Point":      point,
+		"Expression": e.prog.Source.Content(),
+		"Context":    context,
+	})
 	fields, err := point.Fields()
 	if err != nil {
 		l.WithError(err).Error()
@@ -45,8 +49,14 @@ func (e *ExprEvaluator) Eval(point models.Point) (bool, error) {
 
 	l = l.WithField("env", fields)
 	l.Info()
+	if context == nil {
+		context = make(map[string]interface{})
+	}
+	for k, v := range fields {
+		context[k] = v
+	}
 
-	out, err := expr.Run(e.prog, fields)
+	out, err := expr.Run(e.prog, context)
 	if err != nil {
 		fmt.Println(err)
 		l.WithError(err).Error()
