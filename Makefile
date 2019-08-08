@@ -18,7 +18,7 @@ test: plugins
 		github.com/factorysh/gyumao/plugin
 
 workinghours: _plugins
-	make -f plugins/workinghours/Makefile
+	cd plugins/workinghours && make
 	cp plugins/workinghours/workinghours _plugins/ 
 
 plugins: workinghours
