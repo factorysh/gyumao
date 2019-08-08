@@ -21,6 +21,7 @@ type Gyumao struct {
 func New(cfg *config.Config) (*Gyumao, error) {
 	g := &Gyumao{
 		plugins: plugin.NewPlugins(),
+		cfg:     cfg,
 	}
 	err := g.plugins.RegisterAll(cfg.PluginFolder, cfg.Plugins)
 	if err != nil {
