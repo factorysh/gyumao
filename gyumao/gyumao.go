@@ -9,6 +9,7 @@ type Gyumao struct {
 	Plugins *plugin.Plugins
 }
 
+// New Gyumao instance
 func New() *Gyumao {
 	return &Gyumao{
 		Plugins: plugin.NewPlugins(),
