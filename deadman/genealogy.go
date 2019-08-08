@@ -1,9 +1,12 @@
 package deadman
 
+import "sync"
+
 // Genealogy stores deads over time
 type Genealogy struct {
 	genealogies []*DeadRegistry
 	rank        int // Age
+	lock        sync.Mutex
 }
 
 // New Genealogy with a size and a number of generation
@@ -19,7 +22,8 @@ func New(generation int, size uint) *Genealogy {
 
 // Tick add one more generation
 func (g *Genealogy) Tick() {
-	// FIXME it's not threadsafe
+	g.lock.Lock()
+	defer g.lock.Unlock()
 	g.rank++
 	if g.rank >= len(g.genealogies) {
 		g.rank = 0
