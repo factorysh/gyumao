@@ -38,7 +38,18 @@ func NewPlugins() *Plugins {
 		}),
 	}
 }
-func (p *Plugins) register(path string, config map[string]interface{}) error {
+
+func (p *Plugins) RegisterAll(pluginPath string, configs map[string]map[string]interface{}) error {
+	for name, setup := range configs {
+		err := p.Register(filepath.Join(pluginPath, name), setup)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (p *Plugins) Register(path string, config map[string]interface{}) error {
 	// We're a host! Start by launching the plugin process.
 	client := plugin.NewClient(&plugin.ClientConfig{
 		HandshakeConfig: handshakeConfig,

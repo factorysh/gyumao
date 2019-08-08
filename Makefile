@@ -1,5 +1,7 @@
 .PHONY: plugins
 
+all: plugins build
+
 build: bin
 	dep ensure
 	go build -o bin/gyumao
@@ -15,7 +17,11 @@ test: plugins
 		github.com/factorysh/gyumao/rule \
 		github.com/factorysh/gyumao/plugin
 
-workinghours:
+workinghours: _plugins
 	make -f plugins/workinghours/Makefile
+	cp plugins/workinghours/workinghours _plugins/ 
 
 plugins: workinghours
+
+_plugins:
+	mkdir -p _plugins

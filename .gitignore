@@ -2,3 +2,4 @@ vendor
 bin
 plugins/workinghours/workinghours
 .vscode
+_plugins
