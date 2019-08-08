@@ -7,6 +7,7 @@ import (
 	"github.com/factorysh/gyumao/plugin"
 	"github.com/factorysh/gyumao/point"
 	"github.com/factorysh/gyumao/rule"
+	log "github.com/sirupsen/logrus"
 )
 
 // Gyumao main object
@@ -38,5 +39,6 @@ func (g *Gyumao) Serve() error {
 	crusher := point.New(g.rules, g.plugins.EvaluatorPlugins())
 	http.Handle("/write", crusher)
 	go crusher.Start()
+	log.Info("HTTP Listen", g.cfg.InfluxdbListen)
 	return http.ListenAndServe(g.cfg.InfluxdbListen, nil)
 }
