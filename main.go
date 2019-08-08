@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 
 	"github.com/factorysh/gyumao/config"
-	"github.com/factorysh/gyumao/plugin"
+	_gyumao "github.com/factorysh/gyumao/gyumao"
 	"gopkg.in/yaml.v2"
 )
 
@@ -24,8 +24,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	plg := plugin.NewPlugins()
-	err = plg.RegisterAll(cfg.PluginFolder, cfg.Plugins)
+
+	gyumao := _gyumao.New()
+	err = gyumao.Plugins.RegisterAll(cfg.PluginFolder, cfg.Plugins)
 	if err != nil {
 		panic(err)
 	}
