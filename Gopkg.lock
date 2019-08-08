@@ -11,7 +11,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:2521eac07172c7611983820d40b621c25153c7f072b479e8801e06e49a6287c1"
+  digest = "1:13885b613d7df93d61a3b19b24adf2d4229cefe5a6e19b5975e5110e4ed09f61"
   name = "github.com/antonmedv/expr"
   packages = [
     ".",
@@ -26,7 +26,7 @@
     "vm",
   ]
   pruneopts = "UT"
-  revision = "9449c89f5e277eb2ce439695fdc81f3f4f7cacce"
+  revision = "33a808e9f8835ba017273759a1441fb256b22ae4"
 
 [[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
