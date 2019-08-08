@@ -90,3 +90,9 @@ func (p *Plugins) Register(path string, config map[string]interface{}) error {
 	}
 	return nil
 }
+
+func (p *Plugins) EvaluatorPlugins() map[string]interface{} {
+	return map[string]interface{}{
+		"hours": p.HoursPlugins,
+	}
+}

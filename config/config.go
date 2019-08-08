@@ -2,9 +2,10 @@ package config
 
 // Config is the main config object
 type Config struct {
-	Rules        []*Rule                           `yaml:"rules"`
-	PluginFolder string                            `yaml:"plugin_folder"`
-	Plugins      map[string]map[string]interface{} `yaml:"plugins"`
+	InfluxdbListen string                            `yaml:"influxdb_listen"`
+	Rules          []*Rule                           `yaml:"rules"`
+	PluginFolder   string                            `yaml:"plugin_folder"`
+	Plugins        map[string]map[string]interface{} `yaml:"plugins"`
 }
 
 // Rule describes what to do with Influxdb events

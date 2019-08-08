@@ -12,16 +12,15 @@ import (
 
 func TestRules(t *testing.T) {
 	log.SetLevel(log.InfoLevel)
-	rules, err := FromConfig(&config.Config{
-		Rules: []*config.Rule{
+	rules, err := FromRules(
+		[]*config.Rule{
 			&config.Rule{
 				Measurement: "http",
 				TagsPass: map[string][]string{
 					"status": []string{"200"},
 				},
 			},
-		},
-	})
+		}...)
 	assert.NoError(t, err)
 
 	point, err := models.NewPoint(
@@ -53,17 +52,15 @@ func TestRules(t *testing.T) {
 
 func TestExpr(t *testing.T) {
 	log.SetLevel(log.InfoLevel)
-	rules, err := FromConfig(&config.Config{
-		Rules: []*config.Rule{
-			&config.Rule{
-				Measurement: "http",
-				TagsPass: map[string][]string{
-					"status": []string{"200"},
-				},
-				Expr: "size > 50",
+	rules, err := FromRules([]*config.Rule{
+		&config.Rule{
+			Measurement: "http",
+			TagsPass: map[string][]string{
+				"status": []string{"200"},
 			},
+			Expr: "size > 50",
 		},
-	})
+	}...)
 	assert.NoError(t, err)
 
 	point, err := models.NewPoint(

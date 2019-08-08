@@ -35,12 +35,11 @@ func New() Rules {
 	return make(map[string][]*Rule)
 }
 
-// FromConfig build a Rules from a *config.Config
-func FromConfig(cnf *config.Config) (Rules, error) {
+// FromRules build a Rules from a list of Rule
+func FromRules(lRules ...*config.Rule) (Rules, error) {
 	rules := New()
-	l := log.WithField("config", cnf)
-	for _, rule := range cnf.Rules {
-		l = l.WithField("rule", *rule)
+	for _, rule := range lRules {
+		l := log.WithField("rule", rule)
 		var e Evaluator
 		var err error
 		if rule.Expr != "" {

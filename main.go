@@ -25,9 +25,9 @@ func main() {
 		panic(err)
 	}
 
-	gyumao := _gyumao.New()
-	err = gyumao.Plugins.RegisterAll(cfg.PluginFolder, cfg.Plugins)
+	gyumao, err := _gyumao.New(&cfg)
 	if err != nil {
 		panic(err)
 	}
+	gyumao.Serve()
 }
