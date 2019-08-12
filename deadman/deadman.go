@@ -86,8 +86,6 @@ func (di *DeadIterator) Next() (string, bool) {
 
 // DeadIterator returns a DeadIterator
 //
-// DeadIterator uses a mutex, if you don't iterate all the key,
-// the DeadIterator will be stuck
 func (d *DeadRegistry) DeadIterator() *DeadIterator {
 	return &DeadIterator{
 		registry: d,
