@@ -2,7 +2,10 @@ package deadman
 
 import (
 	"fmt"
+	"sync"
 	"testing"
+
+	"math/rand"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -68,4 +71,39 @@ func TestRemove(t *testing.T) {
 	assert.True(t, d.bitset.Test(r.(uint)))
 	assert.False(t, d.bitset.Test(uint(0)))
 	assert.False(t, d.bitset.Test(uint(2)))
+}
+
+func TestConcurrency(t *testing.T) {
+	size := 1000
+	parralel := 8
+	queue := make(chan string)
+
+	keys := make([]string, size)
+	for i := 0; i < size; i++ {
+		keys[i] = fmt.Sprintf("%d", i)
+	}
+	d := NewDeadRegistry(keys)
+
+	w := sync.WaitGroup{}
+	w.Add(size)
+
+	go func() {
+		for _, v := range rand.Perm(size) {
+			fmt.Println("<-", v)
+			queue <- fmt.Sprintf("%d", v)
+		}
+	}()
+
+	for i := 0; i < parralel; i++ {
+		go func() {
+			for {
+				v := <-queue
+				fmt.Println("   ", v)
+				d.Alive(v)
+				w.Done()
+			}
+		}()
+	}
+
+	w.Wait()
 }
