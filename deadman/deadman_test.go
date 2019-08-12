@@ -48,9 +48,24 @@ func TestGhost(t *testing.T) {
 
 func TestEnlarge(t *testing.T) {
 	d := NewDeadRegistry([]string{"a", "b"})
-	d.Enlarge("c", "d")
+	err := d.Add("c", "d")
+	assert.NoError(t, err)
 	assert.Equal(t, []string{"a", "b", "c", "d"}, d.keys)
 	r, ok := d.keysRank.Get("c")
 	assert.True(t, ok)
 	assert.Equal(t, r, uint(2))
+}
+
+func TestRemove(t *testing.T) {
+	d := NewDeadRegistry([]string{"a", "b", "c", "d"})
+	d.Alive("b")
+	err := d.Remove("c")
+	assert.NoError(t, err)
+	assert.Equal(t, []string{"a", "b", "d"}, d.keys)
+	r, ok := d.keysRank.Get("b")
+	assert.True(t, ok)
+	assert.Equal(t, uint(1), r)
+	assert.True(t, d.bitset.Test(r.(uint)))
+	assert.False(t, d.bitset.Test(uint(0)))
+	assert.False(t, d.bitset.Test(uint(2)))
 }

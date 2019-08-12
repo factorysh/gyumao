@@ -1,6 +1,7 @@
 package deadman
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/armon/go-radix"
@@ -94,13 +95,52 @@ func (d *DeadRegistry) DeadIterator() *DeadIterator {
 	}
 }
 
-// Enlarge add more keys
-func (d *DeadRegistry) Enlarge(keys ...string) {
+// Add more keys
+func (d *DeadRegistry) Add(keys ...string) error {
 	d.lock.Lock()
 	defer d.lock.Unlock()
 	start := len(d.keys)
 	d.keys = append(d.keys, keys...)
 	for i, k := range keys {
+		_, ok := d.keysRank.Get(k)
+		if ok {
+			return fmt.Errorf("Duplicate key : %s", k)
+		}
 		d.keysRank.Insert(k, uint(start+i))
 	}
+	return nil
+}
+
+// Remove keys
+func (d *DeadRegistry) Remove(keys ...string) error {
+	d.lock.Lock()
+	defer d.lock.Unlock()
+	ids := make([]uint, len(keys))
+	keysRank := make(map[string]uint)
+	for i, k := range keys {
+		v, ok := d.keysRank.Get(k)
+		if !ok {
+			return fmt.Errorf("Unknown key : %s", k)
+		}
+		ids[i] = v.(uint)
+		keysRank[k] = v.(uint)
+	}
+	newLength := len(d.keys) - len(keys)
+	newBitset := bitset.New(uint(newLength))
+	newKeys := make([]string, newLength)
+	newKeysRank := radix.New()
+	rank := 0
+	for i, k := range d.keys {
+		_, ok := keysRank[k]
+		if !ok {
+			newKeys[rank] = k
+			newKeysRank.Insert(k, uint(rank))
+			newBitset.SetTo(uint(rank), d.bitset.Test(uint(i)))
+			rank++
+		}
+	}
+	d.bitset = newBitset
+	d.keys = newKeys
+	d.keysRank = newKeysRank
+	return nil
 }
