@@ -9,7 +9,7 @@ import (
 )
 
 func TestCircular(t *testing.T) {
-	g := New(3, 42, time.Hour)
+	g := New(3, []string{"a", "b", "c", "d"}, time.Hour)
 	assert.Equal(t, 0, g.rank)
 	g.Tick()
 	assert.Equal(t, 1, g.rank)
@@ -20,7 +20,7 @@ func TestCircular(t *testing.T) {
 }
 
 func TestPrevious(t *testing.T) {
-	g := New(3, 42, time.Hour)
+	g := New(3, []string{"a", "b", "c", "d"}, time.Hour)
 	g.Tick()
 	assert.Equal(t, 1, g.rank)
 	i := g.previous(0)
@@ -32,10 +32,10 @@ func TestPrevious(t *testing.T) {
 }
 
 func TestCrunch(t *testing.T) {
-	g := New(3, 4, time.Hour)
-	g.Current().Alive(0).Alive(1)
+	g := New(3, []string{"a", "b", "c", "d"}, time.Hour)
+	g.Current().Alive("a").Alive("b")
 	g.Tick()
-	g.Current().Alive(1).Alive(2)
+	g.Current().Alive("b").Alive("c")
 	c := g.Crunch(1)
 	fmt.Println(c.bitset)
 	i := c.DeadIterator()
@@ -43,7 +43,7 @@ func TestCrunch(t *testing.T) {
 	fmt.Println(i.Next())
 	for n, ok := i.Next(); ok; n, ok = i.Next() {
 		cpt++
-		assert.Equal(t, uint(3), n)
+		assert.Equal(t, "d", n)
 	}
 	assert.Equal(t, 1, cpt)
 }
