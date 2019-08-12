@@ -3,12 +3,13 @@ package deadman
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCircular(t *testing.T) {
-	g := New(3, 42)
+	g := New(3, 42, time.Hour)
 	assert.Equal(t, 0, g.rank)
 	g.Tick()
 	assert.Equal(t, 1, g.rank)
@@ -19,7 +20,7 @@ func TestCircular(t *testing.T) {
 }
 
 func TestPrevious(t *testing.T) {
-	g := New(3, 42)
+	g := New(3, 42, time.Hour)
 	g.Tick()
 	assert.Equal(t, 1, g.rank)
 	i := g.previous(0)
@@ -31,7 +32,7 @@ func TestPrevious(t *testing.T) {
 }
 
 func TestCrunch(t *testing.T) {
-	g := New(3, 4)
+	g := New(3, 4, time.Hour)
 	g.Current().Alive(0).Alive(1)
 	g.Tick()
 	g.Current().Alive(1).Alive(2)

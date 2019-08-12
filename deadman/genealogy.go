@@ -1,22 +1,39 @@
 package deadman
 
-import "sync"
+import (
+	"sync"
+	"time"
+)
 
 // Genealogy stores deads over time
 type Genealogy struct {
 	genealogies []*DeadRegistry
 	rank        int // Age
 	lock        sync.Mutex
+	duration    time.Duration
 }
 
 // New Genealogy with a size and a number of generation
-func New(generation int, size uint) *Genealogy {
+func New(generation int, size uint, duration time.Duration) *Genealogy {
 	genealogies := make([]*DeadRegistry, generation)
 	for i := 0; i < generation; i++ {
 		genealogies[i] = NewDeadRegistry(size)
 	}
 	return &Genealogy{
 		genealogies: genealogies,
+		duration:    duration,
+	}
+}
+
+func (g *Genealogy) AutoTick() {
+	if g.duration != 0 {
+		go func() {
+			t := time.Tick(g.duration)
+			for {
+				<-t
+				g.Tick()
+			}
+		}()
 	}
 }
 
