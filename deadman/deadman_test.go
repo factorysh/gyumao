@@ -44,5 +44,13 @@ func TestGhost(t *testing.T) {
 	d.Alive("a")
 	assert.True(t, d.bitset.Test(0))
 	assert.False(t, d2.bitset.Test(0))
+}
 
+func TestEnlarge(t *testing.T) {
+	d := NewDeadRegistry([]string{"a", "b"})
+	d.Enlarge("c", "d")
+	assert.Equal(t, []string{"a", "b", "c", "d"}, d.keys)
+	r, ok := d.keysRank.Get("c")
+	assert.True(t, ok)
+	assert.Equal(t, r, uint(2))
 }

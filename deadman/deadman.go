@@ -93,3 +93,14 @@ func (d *DeadRegistry) DeadIterator() *DeadIterator {
 		bitset:   d.bitset.Clone(),
 	}
 }
+
+// Enlarge add more keys
+func (d *DeadRegistry) Enlarge(keys ...string) {
+	d.lock.Lock()
+	defer d.lock.Unlock()
+	start := len(d.keys)
+	d.keys = append(d.keys, keys...)
+	for i, k := range keys {
+		d.keysRank.Insert(k, uint(start+i))
+	}
+}
