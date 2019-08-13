@@ -1,7 +1,6 @@
 package point
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -13,28 +12,34 @@ import (
 
 // Crusher reads Points and trigger things
 type Crusher struct {
-	points  chan models.Points
-	rules   rule.Rules
-	context map[string]interface{}
+	points   chan models.Points
+	rules    rule.Rules
+	consumer Consumer
+	context  map[string]interface{}
 }
 
 // New Crusher
-func New(rules rule.Rules, context map[string]interface{}) *Crusher {
+func New(rules rule.Rules, context map[string]interface{}, consumer Consumer) *Crusher {
 	return &Crusher{
-		points:  make(chan models.Points, 1024),
-		rules:   rules,
-		context: context,
+		points:   make(chan models.Points, 1024),
+		rules:    rules,
+		consumer: consumer,
+		context:  context,
 	}
 }
 
+// Start the Crusher
 func (p *Crusher) Start() {
 	for {
 		points := <-p.points
 		for _, point := range points {
-			if err := p.rules.Visit(point, p.context, func(point models.Point) error {
-				fmt.Println(point)
-				return nil
-			}); err != nil {
+			if err := p.rules.Visit(point, p.context,
+				func(r *rule.Rule, point models.Point) error {
+					return p.consumer.Consume(&Point{
+						point: point,
+						rule:  r,
+					})
+				}); err != nil {
 				log.WithError(err)
 				continue
 			}
