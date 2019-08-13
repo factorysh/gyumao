@@ -12,7 +12,7 @@ type Rule struct {
 	Measurement string
 	TagsPass    Tags
 	TagsExclude Tags
-	GroupBy     []string
+	GroupBy     []string // FIXME ensure keys are sorted
 	Evaluator   evaluator.Evaluator
 }
 
