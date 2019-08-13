@@ -2,6 +2,7 @@ package rule
 
 import (
 	"github.com/factorysh/gyumao/config"
+	"github.com/factorysh/gyumao/evaluator"
 	"github.com/influxdata/influxdb/models"
 	"github.com/influxdata/telegraf/filter"
 	log "github.com/sirupsen/logrus"
@@ -12,7 +13,7 @@ type Rule struct {
 	TagsPass    Tags
 	TagsExclude Tags
 	GroupBy     []string
-	Evaluator   Evaluator
+	Evaluator   evaluator.Evaluator
 }
 
 type Rules map[string][]*Rule
@@ -40,16 +41,16 @@ func FromRules(lRules ...*config.Rule) (Rules, error) {
 	rules := New()
 	for _, rule := range lRules {
 		l := log.WithField("rule", rule)
-		var e Evaluator
+		var e evaluator.Evaluator
 		var err error
 		if rule.Expr != "" {
-			e, err = NewExprEvaluator(rule.Expr)
+			e, err = evaluator.NewExprEvaluator(rule.Expr)
 			if err != nil {
 				l.WithError(err).Error()
 				return nil, err
 			}
 		} else {
-			e = &YesEvaluator{}
+			e = &evaluator.YesEvaluator{}
 		}
 
 		tp, err := tags(rule.TagsPass)
@@ -82,59 +83,49 @@ func (r Rules) Append(name string, rule *Rule) {
 	}
 }
 
-// Visit one Rule, with a point and a callback
-func (r Rule) Visit(point models.Point, context map[string]interface{}, do func(point models.Point) error) error {
+// Filter a point
+func (r *Rule) Filter(point models.Point) bool {
 	l := log.WithField("point", point)
 	for t, filter := range r.TagsPass {
 		l = l.WithField("tag name", t)
 		tag := []byte(t)
 		if !point.HasTag(tag) {
 			l.Info("No tag")
-			return nil
+			return false
 		}
 		v := point.Tags().Get(tag)
 		if !filter.Match(string(v)) {
 			l.WithField("value", string(v)).Info("Don't match")
-			return nil
+			return false
 		}
 	}
 	for t, filter := range r.TagsExclude {
 		tag := []byte(t)
 		if !point.HasTag(tag) {
-			return nil
+			return false
 		}
 		v := point.Tags().Get(tag)
 		if filter.Match(string(v)) {
-			return nil
+			return false
 		}
 	}
-
-	ok, err := r.Evaluator.Eval(point, context)
-	if err != nil {
-		return err
-	}
-	if !ok {
-		l.Info("Evaluator says no")
-		return nil
-	}
-	err = do(point)
-	if err != nil {
-		return err
-	}
-	return nil
+	return true
 }
 
 // Visit all Rules with a Point and a callback
-func (r Rules) Visit(point models.Point, context map[string]interface{}, do func(point models.Point) error) error {
+func (r Rules) Visit(point models.Point, context map[string]interface{},
+	do func(r *Rule, point models.Point) error) error {
 	name := string(point.Name())
 	rules, ok := r[name]
 	if !ok {
 		return nil
 	}
 	for _, rule := range rules {
-		err := rule.Visit(point, context, do)
-		if err != nil {
-			return err
+		if rule.Filter(point) {
+			err := do(rule, point)
+			if err != nil {
+				return err
+			}
 		}
 	}
 	return nil
