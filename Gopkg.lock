@@ -29,6 +29,14 @@
   revision = "33a808e9f8835ba017273759a1441fb256b22ae4"
 
 [[projects]]
+  digest = "1:c47f4964978e211c6e566596ec6246c329912ea92e9bb99c00798bb4564c5b09"
+  name = "github.com/armon/go-radix"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "1a2de0c21c94309923825da3df33a4381872c795"
+  version = "v1.0.0"
+
+[[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
@@ -285,6 +293,7 @@
   input-imports = [
     "github.com/antonmedv/expr",
     "github.com/antonmedv/expr/vm",
+    "github.com/armon/go-radix",
     "github.com/hashicorp/go-hclog",
     "github.com/hashicorp/go-plugin",
     "github.com/influxdata/influxdb/models",
