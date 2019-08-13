@@ -6,6 +6,8 @@ import (
 	"time"
 
 	_consumer "github.com/factorysh/gyumao/consumer"
+	_point "github.com/factorysh/gyumao/point"
+	"github.com/factorysh/gyumao/probes"
 	"github.com/factorysh/gyumao/rule"
 	"github.com/influxdata/influxdb/models"
 	log "github.com/sirupsen/logrus"
@@ -16,6 +18,7 @@ type Crusher struct {
 	points   chan models.Points
 	rules    rule.Rules
 	consumer _consumer.Consumer
+	probes   probes.Probes
 }
 
 // New Crusher
@@ -32,12 +35,9 @@ func (p *Crusher) Start() {
 	for {
 		points := <-p.points
 		for _, point := range points {
-			if err := p.rules.Visit(point,
+			if err := p.rules.Filter(point,
 				func(r *rule.Rule, point models.Point) error {
-					return p.consumer.Consume(&Point{
-						point: point,
-						rule:  r,
-					})
+					return p.consumer.Consume(_point.New(point, r))
 				}); err != nil {
 				log.WithError(err)
 				continue
