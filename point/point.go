@@ -1,8 +1,6 @@
 package point
 
 import (
-	"bytes"
-
 	"github.com/factorysh/gyumao/rule"
 	"github.com/influxdata/influxdb/models"
 )
@@ -11,16 +9,28 @@ import (
 type Point struct {
 	point models.Point
 	rule  *rule.Rule
+	name  string
+}
+
+func New(point models.Point, rule *rule.Rule) *Point {
+	return &Point{
+		point: point,
+		rule:  rule,
+	}
 }
 
 // Name of the point
 func (p *Point) Name() string {
-	b := bytes.NewBuffer(p.point.Name())
-	for _, k := range p.rule.GroupBy {
-		b.WriteRune(',')
-		b.WriteString(k)
-		b.WriteRune('=')
-		b.WriteString(p.point.Tags().GetString(k))
+	if p.name == "" {
+		p.name = p.Rule().NamePoint(p.point)
 	}
-	return b.String()
+	return p.name
+}
+
+func (p *Point) Rule() *rule.Rule {
+	return p.rule
+}
+
+func (p *Point) Point() models.Point {
+	return p.point
 }

@@ -1,8 +1,11 @@
 package rule
 
 import (
+	"bytes"
+
 	"github.com/factorysh/gyumao/config"
 	"github.com/factorysh/gyumao/evaluator"
+	_probes "github.com/factorysh/gyumao/probes"
 	"github.com/influxdata/influxdb/models"
 	"github.com/influxdata/telegraf/filter"
 	log "github.com/sirupsen/logrus"
@@ -112,8 +115,19 @@ func (r *Rule) Filter(point models.Point) bool {
 	return true
 }
 
-// Visit all Rules with a Point and a callback
-func (r Rules) Visit(point models.Point,
+func (r *Rule) NamePoint(point models.Point) string {
+	b := bytes.NewBuffer(point.Name())
+	for _, k := range r.GroupBy {
+		b.WriteRune(',')
+		b.WriteString(k)
+		b.WriteRune('=')
+		b.WriteString(point.Tags().GetString(k))
+	}
+	return b.String()
+}
+
+// Filter all Rules with a Point and a callback
+func (r Rules) Filter(point models.Point, probes _probes.Probes,
 	do func(r *Rule, point models.Point) error) error {
 	name := string(point.Name())
 	rules, ok := r[name]
@@ -121,7 +135,7 @@ func (r Rules) Visit(point models.Point,
 		return nil
 	}
 	for _, rule := range rules {
-		if rule.Filter(point) {
+		if rule.Filter(point) && probes.Exist(rule.NamePoint(point)) {
 			err := do(rule, point)
 			if err != nil {
 				return err

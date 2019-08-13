@@ -35,7 +35,8 @@ func TestRules(t *testing.T) {
 		match++
 		return nil
 	}
-	err = rules.Visit(point, v)
+	probes := &YesProbes{}
+	err = rules.Filter(point, probes, v)
 	assert.Equal(t, 1, match)
 
 	point, err = models.NewPoint(
@@ -46,6 +47,10 @@ func TestRules(t *testing.T) {
 	assert.NoError(t, err)
 
 	match = 0
-	err = rules.Visit(point, v)
+	err = rules.Filter(point, probes, v)
 	assert.Equal(t, 0, match)
 }
+
+type YesProbes struct{}
+
+func (y *YesProbes) Exist(key string) bool { return true }
