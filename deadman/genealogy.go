@@ -46,6 +46,7 @@ func (g *Genealogy) Tick() {
 	if g.rank >= len(g.genealogies) {
 		g.rank = 0
 	}
+	g.Current().Reset()
 }
 
 // Current generation
