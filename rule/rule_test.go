@@ -35,7 +35,7 @@ func TestRules(t *testing.T) {
 		match++
 		return nil
 	}
-	err = rules.Visit(point, nil, v)
+	err = rules.Visit(point, v)
 	assert.Equal(t, 1, match)
 
 	point, err = models.NewPoint(
@@ -46,6 +46,6 @@ func TestRules(t *testing.T) {
 	assert.NoError(t, err)
 
 	match = 0
-	err = rules.Visit(point, nil, v)
+	err = rules.Visit(point, v)
 	assert.Equal(t, 0, match)
 }

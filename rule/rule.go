@@ -113,7 +113,7 @@ func (r *Rule) Filter(point models.Point) bool {
 }
 
 // Visit all Rules with a Point and a callback
-func (r Rules) Visit(point models.Point, context map[string]interface{},
+func (r Rules) Visit(point models.Point,
 	do func(r *Rule, point models.Point) error) error {
 	name := string(point.Name())
 	rules, ok := r[name]

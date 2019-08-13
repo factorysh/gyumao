@@ -15,16 +15,14 @@ type Crusher struct {
 	points   chan models.Points
 	rules    rule.Rules
 	consumer Consumer
-	context  map[string]interface{}
 }
 
 // New Crusher
-func New(rules rule.Rules, context map[string]interface{}, consumer Consumer) *Crusher {
+func New(rules rule.Rules, consumer Consumer) *Crusher {
 	return &Crusher{
 		points:   make(chan models.Points, 1024),
 		rules:    rules,
 		consumer: consumer,
-		context:  context,
 	}
 }
 
@@ -33,7 +31,7 @@ func (p *Crusher) Start() {
 	for {
 		points := <-p.points
 		for _, point := range points {
-			if err := p.rules.Visit(point, p.context,
+			if err := p.rules.Visit(point,
 				func(r *rule.Rule, point models.Point) error {
 					return p.consumer.Consume(&Point{
 						point: point,
