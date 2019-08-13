@@ -1,10 +1,11 @@
-package point
+package crusher
 
 import (
 	"io/ioutil"
 	"net/http"
 	"time"
 
+	_consumer "github.com/factorysh/gyumao/consumer"
 	"github.com/factorysh/gyumao/rule"
 	"github.com/influxdata/influxdb/models"
 	log "github.com/sirupsen/logrus"
@@ -14,11 +15,11 @@ import (
 type Crusher struct {
 	points   chan models.Points
 	rules    rule.Rules
-	consumer Consumer
+	consumer _consumer.Consumer
 }
 
 // New Crusher
-func New(rules rule.Rules, consumer Consumer) *Crusher {
+func New(rules rule.Rules, consumer _consumer.Consumer) *Crusher {
 	return &Crusher{
 		points:   make(chan models.Points, 1024),
 		rules:    rules,

@@ -24,8 +24,3 @@ func (p *Point) Name() string {
 	}
 	return b.String()
 }
-
-// Consumer consumes points
-type Consumer interface {
-	Consume(point *Point) error
-}
