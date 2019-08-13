@@ -12,6 +12,7 @@ bin:
 test: plugins
 	go test -v \
 		github.com/factorysh/gyumao/timeline \
+		github.com/factorysh/gyumao/deadman \
 		github.com/factorysh/gyumao/store \
 		github.com/factorysh/gyumao/config \
 		github.com/factorysh/gyumao/rule \
