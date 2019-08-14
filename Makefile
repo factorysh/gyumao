@@ -16,6 +16,7 @@ test: plugins
 		github.com/factorysh/gyumao/store \
 		github.com/factorysh/gyumao/config \
 		github.com/factorysh/gyumao/rule \
+		github.com/factorysh/gyumao/probes \
 		github.com/factorysh/gyumao/plugin
 
 workinghours: _plugins
