@@ -8,13 +8,7 @@ import (
 
 // File storing probes in YAML
 type File struct {
-	probes map[string]interface{}
-}
-
-// Exist is this key exists ?
-func (f *File) Exist(key string) bool {
-	_, ok := f.probes[key]
-	return ok
+	MapProbes
 }
 
 type fileProbes []fileProbe
@@ -27,9 +21,7 @@ func NewFileFromYAML(raw []byte) (*File, error) {
 	if err != nil {
 		return nil, err
 	}
-	f := &File{
-		probes: make(map[string]interface{}),
-	}
+	f := &File{*NewMapProbes()}
 	for _, p := range probes {
 		f.probes[string(p)] = new(interface{})
 	}

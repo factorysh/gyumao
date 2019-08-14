@@ -17,4 +17,5 @@ func TestFile(t *testing.T) {
 	assert.NoError(t, err)
 	assert.True(t, f.Exist("a"))
 	assert.False(t, f.Exist("d"))
+	assert.Equal(t, []string{"d"}, f.Unknown())
 }
