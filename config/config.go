@@ -20,11 +20,10 @@ func (c *Config) Default() {
 		c.PluginFolder = "/var/lib/gyumao/plugins"
 	}
 	if c.Probes == nil {
-		c.Probes = make(map[string]interface{}{
-			"file": ProbeFileConfig{
-				Path: "/var/lib/gyumao/probes.yml",
-			},
-		})
+		c.Probes = make(map[string]interface{})
+		c.Probes["file"] = ProbeFileConfig{
+			Path: "/var/lib/gyumao/probes.yml",
+		}
 	}
 }
 
