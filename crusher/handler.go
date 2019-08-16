@@ -35,7 +35,7 @@ func (p *Crusher) Start() {
 	for {
 		points := <-p.points
 		for _, point := range points {
-			if err := p.rules.Filter(point,
+			if err := p.rules.Filter(point, p.probes,
 				func(r *rule.Rule, point models.Point) error {
 					return p.consumer.Consume(_point.New(point, r))
 				}); err != nil {
