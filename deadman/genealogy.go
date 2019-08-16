@@ -14,10 +14,11 @@ type Genealogy struct {
 }
 
 // New Genealogy with a size and a number of generation
-func New(generation int, size uint, duration time.Duration) *Genealogy {
+func New(generation int, keys []string, duration time.Duration) *Genealogy {
 	genealogies := make([]*DeadRegistry, generation)
-	for i := 0; i < generation; i++ {
-		genealogies[i] = NewDeadRegistry(size)
+	genealogies[0] = NewDeadRegistry(keys)
+	for i := 1; i < generation; i++ {
+		genealogies[i] = genealogies[0].Ghost()
 	}
 	return &Genealogy{
 		genealogies: genealogies,
@@ -45,6 +46,7 @@ func (g *Genealogy) Tick() {
 	if g.rank >= len(g.genealogies) {
 		g.rank = 0
 	}
+	g.Current().Reset()
 }
 
 // Current generation

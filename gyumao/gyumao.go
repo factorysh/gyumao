@@ -4,17 +4,21 @@ import (
 	"net/http"
 
 	"github.com/factorysh/gyumao/config"
+	"github.com/factorysh/gyumao/consumer"
+	"github.com/factorysh/gyumao/crusher"
 	"github.com/factorysh/gyumao/plugin"
-	"github.com/factorysh/gyumao/point"
+	"github.com/factorysh/gyumao/probes"
 	"github.com/factorysh/gyumao/rule"
 	log "github.com/sirupsen/logrus"
 )
 
 // Gyumao main object
 type Gyumao struct {
-	plugins *plugin.Plugins
-	cfg     *config.Config
-	rules   rule.Rules
+	plugins  *plugin.Plugins
+	cfg      *config.Config
+	rules    rule.Rules
+	store    *probes.Store
+	consumer consumer.Consumer
 }
 
 // New Gyumao instance
@@ -37,7 +41,7 @@ func New(cfg *config.Config) (*Gyumao, error) {
 
 // Serve and block
 func (g *Gyumao) Serve() error {
-	crusher := point.New(g.rules, g.plugins.EvaluatorPlugins())
+	crusher := crusher.New(g.rules, g.plugins.EvaluatorPlugins())
 	http.Handle("/write", crusher)
 	go crusher.Start()
 	log.Info("HTTP Listen", g.cfg.InfluxdbListen)

@@ -10,12 +10,14 @@ bin:
 	mkdir -p bin
 
 test: plugins
-	go test -v \
-		github.com/factorysh/gyumao/timeline \
-		github.com/factorysh/gyumao/store \
-		github.com/factorysh/gyumao/config \
+	go test \
+		github.com/factorysh/gyumao/deadman \
+		github.com/factorysh/gyumao/evaluator \
+		github.com/factorysh/gyumao/plugin \
+		github.com/factorysh/gyumao/probes \
+		github.com/factorysh/gyumao/point \
 		github.com/factorysh/gyumao/rule \
-		github.com/factorysh/gyumao/plugin
+		github.com/factorysh/gyumao/timeline
 
 workinghours: _plugins
 	cd plugins/workinghours && make
