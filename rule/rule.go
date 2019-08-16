@@ -5,6 +5,7 @@ import (
 
 	"github.com/factorysh/gyumao/config"
 	"github.com/factorysh/gyumao/evaluator"
+	 "github.com/factorysh/gyumao/evaluator/expr"
 	_probes "github.com/factorysh/gyumao/probes"
 	"github.com/influxdata/influxdb/models"
 	"github.com/influxdata/telegraf/filter"
@@ -47,7 +48,7 @@ func FromRules(lRules ...*config.Rule) (Rules, error) {
 		var e evaluator.Evaluator
 		var err error
 		if rule.Expr != "" {
-			e, err = evaluator.NewExprEvaluator(rule.Expr)
+			e, err = expr.New(rule.Expr)
 			if err != nil {
 				l.WithError(err).Error()
 				return nil, err
