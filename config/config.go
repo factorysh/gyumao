@@ -6,6 +6,7 @@ type Config struct {
 	Rules          []*Rule                           `yaml:"rules"`
 	PluginFolder   string                            `yaml:"plugin_folder"`
 	Plugins        map[string]map[string]interface{} `yaml:"plugins"`
+	Probes         map[string]interface{}            `yaml:"probes"`
 }
 
 func (c *Config) Default() {
@@ -18,6 +19,17 @@ func (c *Config) Default() {
 	if c.PluginFolder == "" {
 		c.PluginFolder = "/var/lib/gyumao/plugins"
 	}
+	if c.Probes == nil {
+		c.Probes = make(map[string]interface{}{
+			"file": ProbeFileConfig{
+				Path: "/var/lib/gyumao/probes.yml",
+			},
+		})
+	}
+}
+
+type ProbeFileConfig struct {
+	Path string `yaml:"path"`
 }
 
 // Rule describes what to do with Influxdb events
@@ -29,3 +41,9 @@ type Rule struct {
 	MaxAge      uint                `yaml:"max-age"`
 	Expr        string              `yaml:"expr"`
 }
+
+// Probes is a collection of probe
+type Probes []Probe
+
+// Probe is a unique probe : a measurement and tags
+type Probe string
