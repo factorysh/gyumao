@@ -6,7 +6,7 @@ type Config struct {
 	Rules          []*Rule                           `yaml:"rules"`
 	PluginFolder   string                            `yaml:"plugin_folder"`
 	Plugins        map[string]map[string]interface{} `yaml:"plugins"`
-	Probes         map[string]interface{}            `yaml:"probes"`
+	Probes         map[string]map[string]interface{} `yaml:"probes"`
 }
 
 func (c *Config) Default() {
@@ -20,9 +20,9 @@ func (c *Config) Default() {
 		c.PluginFolder = "/var/lib/gyumao/plugins"
 	}
 	if c.Probes == nil {
-		c.Probes = make(map[string]interface{})
-		c.Probes["file"] = ProbeFileConfig{
-			Path: "/var/lib/gyumao/probes.yml",
+		c.Probes = make(map[string]map[string]interface{})
+		c.Probes["file"] = map[string]interface{}{
+			"path": "/var/lib/gyumao/probes.yml",
 		}
 	}
 }
