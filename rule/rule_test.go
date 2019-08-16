@@ -56,3 +56,5 @@ type YesProbes struct{}
 func (y *YesProbes) Exist(key string) bool { return true }
 
 func (y *YesProbes) Unknown() []string { return make([]string, 0) }
+
+func (y *YesProbes) Keys() []string { return make([]string, 0) }
