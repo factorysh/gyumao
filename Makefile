@@ -10,10 +10,10 @@ bin:
 	mkdir -p bin
 
 test: plugins
-	go test -v \
-		github.com/factorysh/gyumao/timeline \
+	go test \
 		github.com/factorysh/gyumao/deadman \
-		github.com/factorysh/gyumao/config \
+		github.com/factorysh/gyumao/evaluator \
+		github.com/factorysh/gyumao/timeline \
 		github.com/factorysh/gyumao/rule \
 		github.com/factorysh/gyumao/probes \
 		github.com/factorysh/gyumao/plugin
