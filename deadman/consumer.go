@@ -6,7 +6,13 @@ type Consumer struct {
 	genealogy *Genealogy
 }
 
-func (c *Consumer) Consumer(point *point.Point) error {
+func NewConsumer(genealogy *Genealogy) *Consumer {
+	return &Consumer{
+		genealogy: genealogy,
+	}
+}
+
+func (c *Consumer) Consume(point *point.Point) error {
 	c.genealogy.Current().Alive(point.Name())
 	return nil
 }
