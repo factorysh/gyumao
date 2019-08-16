@@ -13,8 +13,9 @@ GET /environment/{collection}/{id}
 */
 
 type States interface {
-	Get(name string) *State
+	Get(id string) *State
 	Set(state *State)
+	All() []string // id
 }
 
 type State interface {
