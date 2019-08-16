@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	_consumer "github.com/factorysh/gyumao/consumer"
 	_point "github.com/factorysh/gyumao/point"
 	"github.com/factorysh/gyumao/probes"
 	"github.com/factorysh/gyumao/rule"
@@ -17,12 +16,12 @@ import (
 type Crusher struct {
 	points   chan models.Points
 	rules    rule.Rules
-	consumer _consumer.Consumer
+	consumer _point.Consumer
 	probes   probes.Probes
 }
 
 // New Crusher
-func New(rules rule.Rules, consumer _consumer.Consumer) *Crusher {
+func New(rules rule.Rules, consumer _point.Consumer) *Crusher {
 	return &Crusher{
 		points:   make(chan models.Points, 1024),
 		rules:    rules,
