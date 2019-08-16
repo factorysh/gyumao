@@ -54,3 +54,5 @@ func TestRules(t *testing.T) {
 type YesProbes struct{}
 
 func (y *YesProbes) Exist(key string) bool { return true }
+
+func (y *YesProbes) Unknown() []string { return make([]string, 0) }
