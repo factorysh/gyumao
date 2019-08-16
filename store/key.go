@@ -6,11 +6,8 @@ import (
 	"github.com/influxdata/influxdb/models"
 )
 
-// Key is a combined key, for storing timeline.Timeline in Store
-type Key string
-
 // BuildKey returns Key from a list of tag name, and an Influxdb point
-func BuildKey(keys []string, point models.Point) Key {
+func BuildKey(keys []string, point models.Point) string {
 	b := bytes.Buffer{}
 	b.Write(point.Name())
 	for _, key := range keys {
@@ -19,5 +16,5 @@ func BuildKey(keys []string, point models.Point) Key {
 		b.WriteRune('=')
 		b.Write(point.Tags().Get([]byte(key)))
 	}
-	return Key(b.String())
+	return b.String()
 }
