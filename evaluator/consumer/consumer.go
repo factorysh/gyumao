@@ -12,10 +12,11 @@ type Consumer struct {
 	timelines map[string]*timeline.Timeline
 }
 
-func NewConsumer() *Consumer {
-	return &Consumer{
-		global: make(map[string]interface{}),
+func NewConsumer(global map[string]interface{}) *Consumer {
+	if global == nil {
+		global = make(map[string]interface{})
 	}
+	return &Consumer{global: global}
 }
 
 func (c *Consumer) Consume(point *point.Point) error {
