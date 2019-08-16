@@ -10,9 +10,9 @@ bin:
 	mkdir -p bin
 
 test: plugins
-	go test \
+	go test -cover \
 		github.com/factorysh/gyumao/deadman \
-		github.com/factorysh/gyumao/evaluator \
+		github.com/factorysh/gyumao/evaluator/expr \
 		github.com/factorysh/gyumao/plugin \
 		github.com/factorysh/gyumao/probes \
 		github.com/factorysh/gyumao/point \
