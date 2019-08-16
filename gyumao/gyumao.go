@@ -4,10 +4,9 @@ import (
 	"net/http"
 
 	"github.com/factorysh/gyumao/config"
-	"github.com/factorysh/gyumao/consumer"
 	"github.com/factorysh/gyumao/crusher"
 	"github.com/factorysh/gyumao/plugin"
-	"github.com/factorysh/gyumao/probes"
+	"github.com/factorysh/gyumao/point"
 	"github.com/factorysh/gyumao/rule"
 	log "github.com/sirupsen/logrus"
 )
@@ -17,8 +16,7 @@ type Gyumao struct {
 	plugins  *plugin.Plugins
 	cfg      *config.Config
 	rules    rule.Rules
-	store    *probes.Store
-	consumer consumer.Consumer
+	consumer point.Consumer
 }
 
 // New Gyumao instance
