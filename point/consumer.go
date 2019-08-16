@@ -1,10 +1,8 @@
-package consumer
+package point
 
-import "github.com/factorysh/gyumao/point"
-
-// Consumer consumes points
+// Consumer consumes point.Point
 type Consumer interface {
-	Consume(point *point.Point) error
+	Consume(point *Point) error
 }
 
 // MultiConsumer all the things
@@ -20,7 +18,7 @@ func NewMultiConsumer(consumers ...Consumer) *MultiConsumer {
 }
 
 // Consume consume a point
-func (m *MultiConsumer) Consume(point *point.Point) error {
+func (m *MultiConsumer) Consume(point *Point) error {
 	for _, consumer := range m.consumers {
 		err := consumer.Consume(point)
 		if err != nil {
