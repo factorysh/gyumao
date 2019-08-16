@@ -19,6 +19,8 @@ test: plugins
 		github.com/factorysh/gyumao/rule \
 		github.com/factorysh/gyumao/timeline
 
+tests: | test build
+
 workinghours: _plugins
 	cd plugins/workinghours && make
 	cp plugins/workinghours/workinghours _plugins/ 
