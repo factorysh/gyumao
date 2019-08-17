@@ -11,7 +11,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:13885b613d7df93d61a3b19b24adf2d4229cefe5a6e19b5975e5110e4ed09f61"
+  digest = "1:85913fda4ac5dd7ffc59bf1eb2a84a2aecab6008fb4a770f191d6852c46d987e"
   name = "github.com/antonmedv/expr"
   packages = [
     ".",
@@ -26,7 +26,7 @@
     "vm",
   ]
   pruneopts = "UT"
-  revision = "33a808e9f8835ba017273759a1441fb256b22ae4"
+  revision = "6f0c8555bad3d5ab09f35c1ef3c3047382514e3c"
 
 [[projects]]
   digest = "1:c47f4964978e211c6e566596ec6246c329912ea92e9bb99c00798bb4564c5b09"
@@ -233,7 +233,7 @@
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
   pruneopts = "UT"
-  revision = "fa694d86fc64c7654a660f8908de4e879866748d"
+  revision = "55e96fffbd486c27fc0d5b4468c497d0de3f2727"
 
 [[projects]]
   digest = "1:66eb0a8f30c52554ea9ecdd3c03cb48c9cd02d85388d21d1b3f7e93f4fd3611d"
