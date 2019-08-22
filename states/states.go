@@ -12,18 +12,20 @@ GET /environment/{collection}/{id}
 	map[string]interface{}
 */
 
-// type States interface {
-// 	Get(id string) *State
-// 	Set(state *State)
-// 	All() []string // id
-// }
-//
-// type State interface {
-// 	Id() string // primary key
-// 	Get(key string) interface{}
-// 	Set(key string, value interface{})
-// 	Keys() []string
-// }
+/*
+type States interface {
+	Get(id string) *State
+	Set(state *State)
+	All() []string // id
+}
+
+type State interface {
+	Id() string // primary key
+	Get(key string) interface{}
+	Set(key string, value interface{})
+	Keys() []string
+}
+*/
 
 type States struct {
 	states	map[string]*State
@@ -39,6 +41,9 @@ func (s *States) Get(id string) *State {
 }
 
 func (s *States) Set(state *State) {
+	if s.states == nil {
+		s.states = make(map[string]*State)
+	}
 	s.states[state.Id()] = state
 }
 
@@ -67,5 +72,8 @@ func (s *State) Get(key string) (interface{}) {
 }
 
 func (s *State) Set(key string, value interface{}) {
+	if s.values == nil {
+		s.values = make(map[string]interface{})
+	}
 	s.values[key] = value
 }
