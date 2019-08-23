@@ -30,5 +30,5 @@ func TestState(t *testing.T) {
 	assert.Equal(t, []string{"test1"}, state.Get("1"))
 	assert.Equal(t, []string{"test2"}, state.Get("2"))
 	assert.Equal(t, []string{"test3"}, state.Get("3"))
-	assert.EqualValues(t, []string{"1", "2", "3"}, state.Keys())
+	assert.IsType(t, []string{"1", "2", "3"}, state.Keys())
 }
