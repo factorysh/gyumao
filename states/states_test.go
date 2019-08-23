@@ -9,8 +9,8 @@ import (
 func TestStates(t *testing.T) {
 	states := &States{}
 	state := State{
-		id:     "1",
-		values: nil,
+		Id:     "1",
+		Values: nil,
 	}
 	states.Set(&state)
 	test := states.Get("1")
@@ -20,10 +20,10 @@ func TestStates(t *testing.T) {
 
 func TestState(t *testing.T) {
 	state := State{
-		id:     "1",
-		values: nil,
+		Id:     "1",
+		Values: nil,
 	}
-	assert.Equal(t, "1", state.Id())
+	assert.Equal(t, "1", state.GetId())
 	state.Set("1", []string{"test1"})
 	state.Set("2", []string{"test2"})
 	state.Set("3", []string{"test3"})

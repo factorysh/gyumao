@@ -26,6 +26,12 @@ func main() {
 	}
 	cfg.Default()
 
+	// STATE_TEST
+	// router := mux.NewRouter()
+	// router.HandleFunc("/environment/{collection}/{id}", statesrest.StatesRESTHandlerId)
+	// router.HandleFunc("/environment/{collection}/{id}/{key}", statesrest.StatesRESTHandlerKey)
+	// http.ListenAndServe("127.0.0.1:8080", router)
+
 	gyumao, err := _gyumao.New(&cfg)
 	if err != nil {
 		panic(err)

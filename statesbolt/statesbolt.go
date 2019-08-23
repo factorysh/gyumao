@@ -9,6 +9,7 @@ import (
 	"fmt"
 
 	"github.com/coreos/bbolt"
+	"github.com/factorysh/gyumao/states"
 )
 
 type Cache struct {
@@ -53,6 +54,7 @@ func (c *Cachedb) Close() {
 
 func encode(data Cache) ([]byte, error) {
 	buffer := new(bytes.Buffer)
+	gob.Register(states.States{})
 	encoder := gob.NewEncoder(buffer)
 	err := encoder.Encode(data)
 	if err != nil {

@@ -84,6 +84,14 @@
   version = "v1.3.2"
 
 [[projects]]
+  digest = "1:cbec35fe4d5a4fba369a656a8cd65e244ea2c743007d8f6c1ccb132acf9d1296"
+  name = "github.com/gorilla/mux"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "00bdffe0f3c77e27d2cf6f5c70232a2d3e4d9c15"
+  version = "v1.7.3"
+
+[[projects]]
   digest = "1:cf6b61e1b4c26b0c7526cee4a0cee6d8302b17798af4b2a56a90eedac0aef11a"
   name = "github.com/hashicorp/go-hclog"
   packages = ["."]
@@ -303,6 +311,7 @@
     "github.com/antonmedv/expr/vm",
     "github.com/armon/go-radix",
     "github.com/coreos/bbolt",
+    "github.com/gorilla/mux",
     "github.com/hashicorp/go-hclog",
     "github.com/hashicorp/go-plugin",
     "github.com/influxdata/influxdb/models",
