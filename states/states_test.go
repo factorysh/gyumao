@@ -27,8 +27,8 @@ func TestState(t *testing.T) {
 	state.Set("1", []string{"test1"})
 	state.Set("2", []string{"test2"})
 	state.Set("3", []string{"test3"})
-	assert.Equal(t, []string{"test2"}, state.Get("2"))
 	assert.Equal(t, []string{"test1"}, state.Get("1"))
+	assert.Equal(t, []string{"test2"}, state.Get("2"))
 	assert.Equal(t, []string{"test3"}, state.Get("3"))
-	assert.Equal(t, []string{"1", "2", "3"}, state.Keys())
+	assert.EqualValues(t, []string{"1", "2", "3"}, state.Keys())
 }
