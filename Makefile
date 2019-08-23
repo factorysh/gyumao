@@ -15,6 +15,8 @@ test: plugins
 		github.com/factorysh/gyumao/evaluator/expr \
 		github.com/factorysh/gyumao/plugin \
 		github.com/factorysh/gyumao/probes \
+		github.com/factorysh/gyumao/states \
+		github.com/factorysh/gyumao/statesbolt \
 		github.com/factorysh/gyumao/point \
 		github.com/factorysh/gyumao/rule \
 		github.com/factorysh/gyumao/timeline

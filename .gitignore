@@ -3,3 +3,4 @@ bin
 plugins/workinghours/workinghours
 .vscode
 _plugins
+states_db
