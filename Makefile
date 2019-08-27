@@ -11,6 +11,7 @@ bin:
 
 test: plugins
 	go test -cover \
+		github.com/factorysh/gyumao/config \
 		github.com/factorysh/gyumao/deadman \
 		github.com/factorysh/gyumao/evaluator/expr \
 		github.com/factorysh/gyumao/plugin \
