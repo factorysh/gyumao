@@ -1,11 +1,13 @@
 ---
-
 plugin_folder: ./_plugins
 plugins:
   workinghours:
     start: 9
     end: 18
 rules: []
+probes:
+  file:
+    path: ./probes.yml
 deadman:
   duration: 30s
   generations: 3
