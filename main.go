@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"io/ioutil"
@@ -30,5 +31,5 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	gyumao.Serve()
+	fmt.Println(gyumao.Serve())
 }

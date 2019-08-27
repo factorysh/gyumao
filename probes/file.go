@@ -2,8 +2,10 @@ package probes
 
 import (
 	"errors"
+	"fmt"
 	"io/ioutil"
 
+	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
@@ -23,13 +25,19 @@ type fileProbes []fileProbe
 type fileProbe string
 
 func NewFile(cfg map[string]interface{}) (Probes, error) {
-	raw, ok := cfg["file"]
+	l := log.WithField("cfg", cfg)
+	const KEY = "path"
+	raw, ok := cfg[KEY]
 	if !ok {
-		return nil, errors.New(`"file" key is mandatory`)
+		err := fmt.Errorf(`"%s" key is mandatory`, KEY)
+		l.WithError(err).Error()
+		return nil, err
 	}
 	path, ok := raw.(string)
 	if !ok {
-		return nil, errors.New(`"file" key must be a string`)
+		err := errors.New(`"file" key must be a string`)
+		l.WithError(err).Error()
+		return nil, err
 	}
 	return NewFileFromPath(path)
 }

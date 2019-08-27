@@ -26,30 +26,38 @@ type Gyumao struct {
 
 // New Gyumao instance
 func New(cfg *config.Config) (*Gyumao, error) {
+	l := log.WithField("cfg", cfg)
 	g := &Gyumao{
 		plugins: plugin.NewPlugins(),
 		cfg:     cfg,
 	}
 	err := g.plugins.RegisterAll(cfg.PluginFolder, cfg.Plugins)
 	if err != nil {
+		l.WithError(err).Error("Plugin Register")
 		return nil, err
 	}
 	r, err := rule.FromRules(cfg.Rules...)
 	if err != nil {
+		l.WithError(err).Error("Rules Register")
 		return nil, err
 	}
 	g.rules = r
 	if len(cfg.Probes) != 1 {
-		return nil, fmt.Errorf(`Just one "probes", not %d`, len(cfg.Probes))
+		err = fmt.Errorf(`Just one "probes", not %d`, len(cfg.Probes))
+		l.WithError(err).Error("One probe")
+		return nil, err
 	}
 	for k, v := range cfg.Probes {
 		factory, ok := probes.ProbesPlugin[k]
 		if !ok {
-			return nil, fmt.Errorf(`Unknown probe : %s`, k)
+			err = fmt.Errorf(`Unknown probe : %s`, k)
+			l.WithError(err).Error()
+			return nil, err
 		}
 		var err error
 		g.probes, err = factory(v)
 		if err != nil {
+			l.WithError(err).Error("Probes factory")
 			return nil, err
 		}
 	}
