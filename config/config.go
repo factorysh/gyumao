@@ -1,5 +1,7 @@
 package config
 
+import "time"
+
 // Config is the main config object
 type Config struct {
 	InfluxdbListen string                            `yaml:"influxdb_listen"`
@@ -7,6 +9,7 @@ type Config struct {
 	PluginFolder   string                            `yaml:"plugin_folder"`
 	Plugins        map[string]map[string]interface{} `yaml:"plugins"`
 	Probes         map[string]map[string]interface{} `yaml:"probes"`
+	Deadman        *Deadman                          `yaml:"deadman"`
 }
 
 func (c *Config) Default() {
@@ -23,6 +26,12 @@ func (c *Config) Default() {
 		c.Probes = make(map[string]map[string]interface{})
 		c.Probes["file"] = map[string]interface{}{
 			"path": "/var/lib/gyumao/probes.yml",
+		}
+	}
+	if c.Deadman == nil {
+		c.Deadman = &Deadman{
+			Duration:    30 * time.Second,
+			Generations: 3,
 		}
 	}
 }
@@ -46,3 +55,9 @@ type Probes []Probe
 
 // Probe is a unique probe : a measurement and tags
 type Probe string
+
+// Deadman settings
+type Deadman struct {
+	Duration    time.Duration `yaml:"duration"`
+	Generations int           `yaml:"generations"`
+}

@@ -5,3 +5,7 @@ plugins:
   workinghours:
     start: 9
     end: 18
+rules: []
+deadman:
+  duration: 30s
+  generations: 3

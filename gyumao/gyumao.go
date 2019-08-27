@@ -3,7 +3,6 @@ package gyumao
 import (
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/factorysh/gyumao/config"
 	"github.com/factorysh/gyumao/crusher"
@@ -61,7 +60,8 @@ func New(cfg *config.Config) (*Gyumao, error) {
 func (g *Gyumao) Serve() error {
 	global := g.plugins.EvaluatorPlugins()
 	eval := evaluator.NewConsumer(global)
-	dead := deadman.NewConsumer(deadman.New(3, g.probes.Keys(), 30*time.Second))
+	dead := deadman.NewConsumer(deadman.New(g.cfg.Deadman.Generations,
+		g.probes.Keys(), g.cfg.Deadman.Duration))
 	consumers := point.NewMultiConsumer(dead, eval)
 	crusher := crusher.New(g.rules, consumers)
 	http.Handle("/write", crusher)
