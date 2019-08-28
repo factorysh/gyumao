@@ -72,7 +72,7 @@ func (g *Gyumao) Serve() error {
 	dead := deadman.NewConsumer(deadman.New(g.cfg.Deadman.Generations,
 		g.probes.Keys(), g.cfg.Deadman.Duration))
 	consumers := point.NewMultiConsumer(dead, eval)
-	crusher := crusher.New(g.rules, consumers)
+	crusher := crusher.New(g.rules, consumers, g.probes)
 	http.Handle("/write", crusher)
 	go crusher.Start()
 	log.Info("HTTP Listen", g.cfg.InfluxdbListen)

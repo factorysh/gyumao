@@ -21,11 +21,12 @@ type Crusher struct {
 }
 
 // New Crusher
-func New(rules rule.Rules, consumer _point.Consumer) *Crusher {
+func New(rules rule.Rules, consumer _point.Consumer, probes probes.Probes) *Crusher {
 	return &Crusher{
 		points:   make(chan models.Points, 1024),
 		rules:    rules,
 		consumer: consumer,
+		probes:   probes,
 	}
 }
 
