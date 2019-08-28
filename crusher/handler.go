@@ -47,29 +47,26 @@ func (p *Crusher) Start() {
 
 // ServeHTTP is a HTTP handler implementation
 func (p *Crusher) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	l := log.WithField("request", r)
 
 	if r.Method != "POST" {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
-	body, err := r.GetBody()
+
+	buff, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Error(err)
-		w.WriteHeader(400)
-		return
-	}
-	buff, err := ioutil.ReadAll(body)
-	if err != nil {
-		log.Error(err)
+		l.WithError(err).Error("read Body")
 		w.WriteHeader(400)
 		return
 	}
 	points, err := models.ParsePointsWithPrecision(buff, time.Now(), "")
 	if err != nil {
-		log.Error(err)
+		l.WithError(err).Error("Parse points")
 		w.WriteHeader(500)
 		return
 	}
+	l.WithField("points", points).Info("Crusher handler")
 	p.points <- points
 	w.WriteHeader(http.StatusOK)
 }
