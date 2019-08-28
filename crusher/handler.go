@@ -60,7 +60,8 @@ func (p *Crusher) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 	}
-	points, err := models.ParsePointsWithPrecision(buff, time.Now(), "")
+	precision := r.FormValue("precision")
+	points, err := models.ParsePointsWithPrecision(buff, time.Now(), precision)
 	if err != nil {
 		l.WithError(err).Error("Parse points")
 		w.WriteHeader(500)
