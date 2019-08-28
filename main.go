@@ -8,10 +8,15 @@ import (
 
 	"github.com/factorysh/gyumao/config"
 	_gyumao "github.com/factorysh/gyumao/gyumao"
+	"github.com/onrik/logrus/filename"
+	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
 func main() {
+	filenameHook := filename.NewHook()
+	log.AddHook(filenameHook)
+	log.SetLevel(log.DebugLevel)
 	configPath := os.Getenv("CONFIG")
 	if configPath == "" {
 		configPath = "/etc/gyumao.yml"

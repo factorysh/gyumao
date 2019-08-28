@@ -8,10 +8,6 @@
   version = "~1.7.6"
 
 [[constraint]]
-  name = "github.com/sirupsen/logrus"
-  version = "^1.4.1"
-
-[[constraint]]
   name = "github.com/antonmedv/expr"
   branch = "master"
 
@@ -30,6 +26,11 @@
 [[constraint]]
   name = "gopkg.in/yaml.v2"
   version = "^2.2.2"
+
 [[constraint]]
   name = "github.com/armon/go-radix"
   version = "1.0.0"
+
+[[constraint]]
+  name = "github.com/onrik/logrus"
+  branch = "master"
