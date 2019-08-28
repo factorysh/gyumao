@@ -34,6 +34,7 @@ func (p *Crusher) Start() {
 	for {
 		points := <-p.points
 		for _, point := range points {
+			log.WithField("point", point).Info("crusher.Crusher#Start")
 			if err := p.rules.Filter(point, p.probes,
 				func(r *rule.Rule, point models.Point) error {
 					return p.consumer.Consume(_point.New(point, r))
