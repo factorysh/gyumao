@@ -5,7 +5,7 @@ import (
 
 	"github.com/factorysh/gyumao/config"
 	"github.com/factorysh/gyumao/evaluator"
-	 "github.com/factorysh/gyumao/evaluator/expr"
+	"github.com/factorysh/gyumao/evaluator/expr"
 	_probes "github.com/factorysh/gyumao/probes"
 	"github.com/influxdata/influxdb/models"
 	"github.com/influxdata/telegraf/filter"
@@ -130,6 +130,7 @@ func (r *Rule) NamePoint(point models.Point) string {
 // Filter all Rules with a Point and a callback
 func (r Rules) Filter(point models.Point, probes _probes.Probes,
 	do func(r *Rule, point models.Point) error) error {
+	log.WithField("probes", probes).Debug()
 	name := string(point.Name())
 	rules, ok := r[name]
 	if !ok {

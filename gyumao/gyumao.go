@@ -61,6 +61,7 @@ func New(cfg *config.Config) (*Gyumao, error) {
 			return nil, err
 		}
 	}
+	l.WithField("probes", g.probes).Debug()
 	return g, nil
 }
 

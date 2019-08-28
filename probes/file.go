@@ -39,7 +39,12 @@ func NewFile(cfg map[string]interface{}) (Probes, error) {
 		l.WithError(err).Error()
 		return nil, err
 	}
-	return NewFileFromPath(path)
+	p, err := NewFileFromPath(path)
+	if err != nil {
+		l.WithError(err).Error()
+	}
+	l.Debug()
+	return p, err
 }
 
 // NewFileFromYAML parse YAML
