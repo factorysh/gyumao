@@ -46,7 +46,7 @@ type Rule struct {
 	TagsPass    map[string][]string `yaml:"tags_pass"`
 	TagsExclude map[string][]string `yaml:"tags_exclude"`
 	GroupBy     []string            `yaml:"group_by"`
-	MaxAge      uint                `yaml:"max-age"`
+	MaxAge      uint                `yaml:"max_age"`
 	Expr        string              `yaml:"expr"`
 }
 
