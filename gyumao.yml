@@ -4,7 +4,12 @@ plugins:
   workinghours:
     start: 9
     end: 18
-rules: []
+rules:
+  - measurement: http
+    tags_pass:
+      status: [200]
+    group_by:
+      - hostname
 probes:
   file:
     path: ./probes.yml
